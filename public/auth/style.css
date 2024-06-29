@@ -1,0 +1,176 @@
+:root {
+    --theme-text-color: #1c252c;
+    --lebel-color: #6a7880;
+    --link-color: #2046cf;
+}
+
+@font-face {
+    font-family: wv-icons;
+    font-weight: normal;
+    font-style: normal;
+    src: url("/theme/fonts/wv-icons.woff") format("woff")
+}
+
+@font-face {
+    font-family: Caveat;
+    font-weight: normal;
+    font-style: normal;
+    src: url("/theme/fonts/Caveat-Regular.woff2") format("woff2"), url("/theme/fonts/Caveat-Regular.woff") format("woff")
+}
+
+@font-face {
+    font-family: DineroSans;
+    src: url("/theme/fonts/DineroSans-Italic.woff2") format("woff2"), url("/theme/fonts/DineroSans-Italic.woff") format("woff");
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap
+}
+
+@font-face {
+    font-family: DineroSans;
+    src: url("/theme/fonts/DineroSans-Regular.woff2") format("woff2"), url("/theme/fonts/DineroSans-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap
+}
+
+@font-face {
+    font-family: DineroSans;
+    src: url("/theme/fonts/DineroSans-Semibold.woff2") format("woff2"), url("/theme/fonts/DineroSans-Semibold.woff") format("woff");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap
+}
+
+@font-face {
+    font-family: DineroSans;
+    src: url("/theme/fonts/DineroSans-SemiboldItalic.woff2") format("woff2"), url("/theme/fonts/DineroSans-SemiboldItalic.woff") format("woff");
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap
+}
+
+@font-face {
+    font-family: DineroSans;
+    src: url("/theme/fonts/DineroSans-Bold.woff2") format("woff2"), url("/theme/fonts/DineroSans-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap
+}
+
+@font-face {
+    font-family: DineroSans;
+    src: url("/theme/fonts/DineroSans-BoldItalic.woff2") format("woff2"), url("/theme/fonts/DineroSans-BoldItalic.woff") format("woff");
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap
+}
+
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: DineroSans !important;
+}
+
+.ad-banner {
+    height: 100vh;
+    object-fit: cover;
+}
+
+.login-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    border-radius: 16px;
+    background-color: #e8effd;
+    padding: 32px;
+}
+
+.login-card h1 {
+    font-size: 33px;
+    font-weight: bold;
+    padding: 16px 0;
+    color: var(--theme-text-color);
+}
+
+.login-card img {
+    height: 32px;
+}
+
+.login-card label {
+    font-weight: bold;
+    color: var(--lebel-color);
+}
+
+.login-card a {
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: bold;
+}
+
+.auth-input-group input {
+    margin: 4px 0;
+    text-decoration: none;
+    vertical-align: middle;
+    border: 1px solid #77aada;
+    border-radius: 8px;
+    padding: 8px 10px 6px;
+    transition: border .1s linear;
+    min-height: 40px;
+    width: 100%;
+    background-color: white;
+}
+
+.auth-input-group input:-webkit-autofill,  input:-webkit-autofill {
+    background-color: white !important;
+}
+
+.auth-input-group input[type="checkbox"] {
+    padding: unset;
+}
+
+span.input-group-text {
+    border-radius: 50%;
+    padding: 20px;
+    color: silver;
+}
+
+input::placeholder {
+    font-weight: bolder;
+    color: #e6e6e6;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.login-button {
+    color: #fff;
+    background-color: #2046cf;
+    border: 1px solid rgba(0, 0, 0, 0);
+    padding: 8px 20px;
+    border-radius: 500px;
+    font-weight: bold;
+}
+
+.error-msg {
+    position: absolute;
+    list-style: none;
+    color: red;
+    bottom: -32px;
+    font-size: 12px;
+    left: 26px;
+}
+
+.language-switch {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 150px;
+    z-index: 99;
+}
