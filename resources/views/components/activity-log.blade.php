@@ -19,12 +19,10 @@
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>
-                            @if($activity_log->creatable_type == 'App\Models\User')
-                                <span class="text-primary fw-bold">Admin <i class="mdi mdi-arrow-right-bold-outline text-success"></i></span>
-                            @else
-                                <span class="text-primary fw-bold">Auth User <i class="mdi mdi-arrow-right-bold-outline text-success"></i></span>
-                            @endif
-                            {{$activity_log?->creatable?->name}}
+                            @foreach($activity_log->logable?->roles as $role)
+                                <span class="text-primary fw-bold">{{$role->name}}<i class="mdi mdi-arrow-right-bold-outline text-success"></i></span>
+                            @endforeach
+                            {{$activity_log->logable?->name}}
                         </td>
                         <td class="text-danger">{{$activity_log?->note}}</td>
                         <td style="max-width: 200px">

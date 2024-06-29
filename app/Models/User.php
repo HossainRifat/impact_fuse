@@ -15,10 +15,14 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Manager\Constants\GlobalConstant;
+use App\Models\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -123,6 +127,28 @@ class User extends Authenticatable
         return $query->paginate($request->input('per_page', GlobalConstant::DEFAULT_PAGINATION));
     }
 
+    final public function get_user_by_role(?Request $request = null, string $role_name, ?int $imit = null): ?Collection
+    {
+        $query = self::query()->where('status', self::STATUS_ACTIVE)
+            ->whereHas('roles', function ($query) use ($role_name) {
+                $query->where('name', 'like', '%' . $role_name . '%');
+            })
+            ->select('id', 'name', 'email', 'phone', 'account_number')->orderByDesc('id');
+
+        if ($request?->input('search')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->input('search') . '%');
+                $query->orWhere('email', 'like', '%' . $request->input('search') . '%');
+                $query->orWhere('phone', 'like', '%' . $request->input('search') . '%');
+            });
+        }
+
+        if ($imit) {
+            return $query->limit($imit)->get();
+        }
+        return $query->get();
+    }
+
     final public function get_user_by_id(int $user_id)
     {
         return self::query()->find($user_id);
@@ -190,6 +216,60 @@ class User extends Authenticatable
         $user->photo()->create($media_data);
     }
 
+    private function prepare_data(Request $request, ?User $user = null): array
+    {
+        $data = [
+            'name'        => $request->input('name'),
+            'email'       => $request->input('email'),
+            'phone'       => $request->input('phone', null),
+            'address'     => $request->input('address', null),
+            'note'        => $request->input('note', null),
+            'status'      => $request->input('status', self::STATUS_ACTIVE),
+        ];
+        if ($request->input('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        }
+
+        return $data;
+    }
+
+    final public function store_user(Request $request): Builder | Model
+    {
+        $user = self::query()->create($this->prepare_data($request));
+        if ($request->input('role_id')) {
+            $user->roles()->sync($request->input('role_id'));
+        }
+        if ($request->has('photo')) {
+            $this->upload_profile_photo($request, $user);
+        }
+
+        return $user;
+    }
+
+
+    final public function update_user(Request $request, User $user): Builder|Model
+    {
+        $user->update($this->prepare_data($request));
+        if ($request->input('role_id')) {
+            $user->roles()->sync($request->input('role_id'));
+        }
+        if ($request->has('photo')) {
+            $this->upload_profile_photo($request, $user);
+        }
+        return $user;
+    }
+
+    final public function delete_user(User $user): bool
+    {
+        if ($user->profile_photo && !empty($user->profile_photo->photo)) {
+            ImageUploadManager::deletePhoto($user->profile_photo->photo);
+            $user->profile_photo->delete();
+        }
+        return $user->delete();
+    }
+
+
+
     /**
      * @return MorphOne
      */
@@ -198,5 +278,8 @@ class User extends Authenticatable
         return $this->morphOne(MediaGallery::class, 'imageable');
     }
 
-
+    final public function activity_logs(): MorphMany
+    {
+        return $this->morphMany(ActivityLog::class, 'logable')->orderByDesc('id');
+    }
 }

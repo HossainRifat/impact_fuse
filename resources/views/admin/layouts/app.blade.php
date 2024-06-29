@@ -123,6 +123,71 @@
         integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
     <script src="{{asset('theme/js/common-scripts.js')}}"></script>
+    <script src="{{asset('admin_assets/js/media_library.js')}}"></script>
+    <script>
+
+        //d-none to target element will 200 ms delay
+        function showElement(target) {
+            setTimeout(function () {
+                $(target).removeClass('d-none');
+            }, 1);
+        }
+    
+        //custom tab logic
+        $(document).ready(function () {
+            let target = window.location.hash;
+            if (target) {
+                $('.nav-tab-item').removeClass('active');
+                $(`a[href="${target}"]`).parent().addClass('active');
+                $('.tab-pane-custom').addClass('d-none');
+                showElement(target);
+            }
+        });
+    
+        $('.nav-tab-item').on('click', function () {
+            //get target element from href attribute
+            let target = $(this).find('a').attr('href');
+            $('.nav-tab-item').removeClass('active');
+            $(this).addClass('active');
+            $('.tab-pane-custom').addClass('d-none');
+            showElement(target);
+        });
+    
+        var editor_config = {
+            path_absolute : "/",
+            selector: "textarea.tinymce",
+            plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor colorpicker textpattern",
+            ],
+            toolbar: "insertfile undo redo | styleselect fontselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | forecolor backcolor emoticons  | table | code ",
+            relative_urls: false,
+            file_browser_callback : function(field_name, url, type, win) {
+                var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+                var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+    
+                var cmsURL = editor_config.path_absolute + 'file-manager?field_name=' + field_name;
+                if (type == 'image') {
+                    cmsURL = cmsURL + "&type=Images";
+                } else {
+                    cmsURL = cmsURL + "&type=Files";
+                }
+    
+                tinyMCE.activeEditor.windowManager.open({
+                    file : cmsURL,
+                    title : 'Filemanager',
+                    width : x * 0.8,
+                    height : y * 0.8,
+                    resizable : "yes",
+                    close_previous : "no"
+                });
+            }
+        };
+    
+        tinymce.init(editor_config);
+    </script>
 </body>
 
 </html>
