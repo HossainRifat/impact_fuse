@@ -21,14 +21,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="d-grid">
-                    <button id="reset_fields" class="btn  btn-warning btn-sm" type="reset">
+                    <button id="reset_fields" class="btn  btn-warning" type="reset">
                         <i class="fa-solid fa-rotate"></i> @lang('Reset')
                     </button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="d-grid">
-                    <button class="btn btn-success btn-sm" type="submit">
+                    <button class="btn btn-success" type="submit">
                         <i class="fa-solid fa-magnifying-glass"></i> @lang('Search')
                     </button>
                 </div>
