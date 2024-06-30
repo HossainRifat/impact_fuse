@@ -188,6 +188,7 @@
     
         tinymce.init(editor_config);
     </script>
+    @stack('scripts')
 </body>
 
 </html>

@@ -19,10 +19,10 @@
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>
-                            @foreach($activity_log->logable?->roles as $role)
+                            @foreach($activity_log?->created_by?->roles as $role)
                                 <span class="text-primary fw-bold">{{$role->name}}<i class="mdi mdi-arrow-right-bold-outline text-success"></i></span>
                             @endforeach
-                            {{$activity_log->logable?->name}}
+                            {{$activity_log->created_by?->name}}
                         </td>
                         <td class="text-danger">{{$activity_log?->note}}</td>
                         <td style="max-width: 200px">

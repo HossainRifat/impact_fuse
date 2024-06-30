@@ -18,3 +18,4 @@
     <link href="{{asset('admin_assets/css/media_library.css')}}" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
     <link href="{{asset('plugins/select2/select2.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('theme/css/common-css.css')}}" rel="stylesheet" type="text/css"/>

@@ -12,6 +12,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleAssignController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\BlogCategoryController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionAssociationController;
@@ -42,6 +44,8 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::resource('menu', MenuController::class);
 
         Route::resource('user', UserController::class);
+        Route::resource('blog-category', BlogCategoryController::class);
+        Route::resource('blog', BlogController::class);
     });
 });
 
