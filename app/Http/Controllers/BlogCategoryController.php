@@ -102,8 +102,9 @@ class BlogCategoryController extends Controller
             'button_url' => route('blog-category.index'),
         ];
         $blog_category->load(['activity_logs', 'created_by', 'updated_by', 'parent', 'seo', 'activity_logs.created_by', 'activity_logs.updated_by']);
+        $seo = $blog_category->seo;
 
-        return view('admin.modules.blog-category.show', compact('blog_category', 'cms_content'));
+        return view('admin.modules.blog-category.show', compact('blog_category', 'cms_content', 'seo'));
     }
 
     /**

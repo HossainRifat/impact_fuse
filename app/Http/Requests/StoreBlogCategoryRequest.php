@@ -26,7 +26,7 @@ class StoreBlogCategoryRequest extends FormRequest
             'slug'             => 'required|string|max:255|unique:blog_categories,slug',
             'description'      => 'nullable|string',
             'parent_id'        => 'nullable|integer|exists:blog_categories,id',
-            'status'           => 'required|integer|in:1,2',
+            'status'           => 'required|integer',
             'display_order'    => 'nullable|integer',
             'photo'            => 'nullable',
             'meta_title'       => 'nullable|string|max:255',

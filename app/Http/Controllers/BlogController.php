@@ -105,8 +105,9 @@ class BlogController extends Controller
             'button_url'   => route('blog.index'),
         ];
         $blog->load(['activity_logs', 'created_by', 'updated_by', 'seo', 'photo', 'categories', 'activity_logs.created_by', 'activity_logs.updated_by']);
+        $seo = $blog->seo;
 
-        return view('admin.modules.blog.show', compact('blog', 'cms_content'));
+        return view('admin.modules.blog.show', compact('blog', 'cms_content', 'seo'));
     }
 
     /**

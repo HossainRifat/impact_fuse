@@ -17,6 +17,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionAssociationController;
+use App\Http\Controllers\ServiceController;
 
 Route::get('dash', [UserController::class, 'dashboard'])->name('invoice');
 
@@ -46,6 +47,7 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::resource('user', UserController::class);
         Route::resource('blog-category', BlogCategoryController::class);
         Route::resource('blog', BlogController::class);
+        Route::resource('service', ServiceController::class);
     });
 });
 

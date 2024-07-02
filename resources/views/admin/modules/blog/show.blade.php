@@ -17,7 +17,7 @@
                 </li>
                 <li class="nav-tab-item">
                     <a href="#nav-preview">
-                        Meta information
+                        Preview Content
                     </a>
                 </li>
             </ul>
@@ -152,41 +152,7 @@
             </div>
         </div>
         <div class="tab-pane-custom d-none" id="nav-seo">
-            <div class="row justify-content-center align-items-end">
-                <div class="col-md-12">
-                    <table class="table table-striped table-hover table-bordered">
-                        <tbody>
-                            <tr>
-                                <th>Meta Title</th>
-                                <td>{{$blog->seo?->title}}</td>
-                            </tr>
-                            <tr>
-                                <th>Meta Description</th>
-                                <td>{{$blog->seo?->description}}</td>
-                            </tr>
-                            <tr>
-                                <th>Meta Keywords</th>
-                                @php $keywords = explode(',', $blog->seo?->keywords); @endphp
-                                <td>
-                                    @foreach($keywords as $keyword)
-                                    <span class="badge bg-primary">{{$keyword}}</span>
-                                    @endforeach
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Og Image</th>
-                                <td class="d-flex justify-content-center">
-                                    <a href="{{\Illuminate\Support\Facades\Storage::url($blog->seo?->photo?->photo)}}">
-                                        <img src="{{\Illuminate\Support\Facades\Storage::url($blog->seo?->photo?->photo)}}" alt="{{$blog->name}}"
-                                        class="img-fluid shadow-sm rounded border" style="max-width: 100px;">
-                                    </a>
-                                    
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            @include('admin.modules.seo.partials.seo')
         </div>
         <div class="tab-pane-custom d-none" id="nav-preview">
             <div class="row justify-content-center align-items-end">

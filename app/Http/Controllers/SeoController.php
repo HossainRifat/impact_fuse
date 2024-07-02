@@ -7,7 +7,7 @@ use App\Models\Seo;
 use App\Http\Requests\StoreSeoRequest;
 use App\Http\Requests\UpdateSeoRequest;
 use App\Manager\API\Traits\CommonResponse;
-use App\Manager\API\Traits\AppActivityLog;
+use App\Models\Traits\AppActivityLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

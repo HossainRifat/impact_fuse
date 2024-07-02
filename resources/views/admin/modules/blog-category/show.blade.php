@@ -114,35 +114,7 @@
             </div>
         </div>
         <div class="tab-pane-custom d-none" id="nav-seo">
-            <div class="row justify-content-center align-items-end">
-                <div class="col-md-12">
-                    <table class="table table-striped table-hover table-bordered">
-                        <tbody>
-                            <tr>
-                                <th>Meta Title</th>
-                                <td>{{$blog_category->seo?->title}}</td>
-                            </tr>
-                            <tr>
-                                <th>Meta Description</th>
-                                <td>{{$blog_category->seo?->description}}</td>
-                            </tr>
-                            <tr>
-                                <th>Meta Keywords</th>
-                                <td>{{$blog_category->seo?->keywords}}</td>
-                            </tr>
-                            <tr>
-                                <th>Og Image</th>
-                                <td class="d-flex justify-content-center">
-                                    <a href="{{get_image($blog_category->seo?->photo?->photo)}}">
-                                        <img src="{{get_image($blog_category->seo?->photo?->photo)}}" alt="{{$blog_category->name}}"
-                                        class="img-fluid shadow-sm rounded border" style="max-width: 100px;">
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            @include('admin.modules.seo.partials.seo')
         </div>
     </div>
 </div>

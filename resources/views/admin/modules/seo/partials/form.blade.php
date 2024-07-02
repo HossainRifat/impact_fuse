@@ -51,7 +51,9 @@
         create: true,
         delete:true
     };
+    let tom_select = new TomSelect(".tom-select", settings);
     let select_seo = new TomSelect(".tom-select-seo", settings);
+
 
     
     try{

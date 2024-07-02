@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBlogCategoryRequest extends FormRequest
+class UpdateServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,11 @@ class UpdateBlogCategoryRequest extends FormRequest
     {
         return [
             'name'             => 'required|string|max:255',
-            'name_bn'          => 'nullable|string|max:255',
-            'slug'             => 'required|string|max:255|unique:blog_categories,slug,' . $this->blog_category?->id,
-            'description'      => 'nullable|string',
-            'parent_id'        => 'nullable|integer|exists:blog_categories,id,' . $this->blog_category?->id,
+            'slug'             => 'required|string|max:255|unique:services,slug,' . $this->service?->id,
+            'description'      => 'required|string',
+            'summary'          => 'required|string',
+            'tool_used'        => 'required|string',
+            'parent_id'        => 'nullable|integer|exists:services,id,' . $this->service?->id,
             'status'           => 'required|integer',
             'display_order'    => 'nullable|integer',
             'photo'            => 'nullable',

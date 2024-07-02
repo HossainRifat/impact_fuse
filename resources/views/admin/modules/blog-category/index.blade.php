@@ -24,17 +24,18 @@
                         <x-serial :serial="$loop->iteration" :collection="$categories" />
                     </td>
                     <td>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-start">
                             @if($category->photo)
                             <img src="{{get_image($category->photo?->photo)}}" alt=""
                                 class="img-fluid shadow-sm rounded border" style="max-width: 60px;">
                             @endif
                             @if($category->parent)
-                            <span class="ms-2 text-secondary">{{$category->parent?->name}}</span>
-                            <i class="fa-solid fa-arrow-right text-secondary"></i>
-                            <span class="ms-2 fw-bold"> {{$category->name}}</span>
+                            <div>
+                                <p class="ms-2 fw-bold mb-0"> {{$category->name}}</p>
+                                <p class="ms-2 text-secondary">{{$category->parent?->name}}</p>
+                            </div>
                             @else
-                            <span class="ms-2 fw-bold">{{$category->name}}</span>
+                            <p class="ms-2 fw-bold">{{$category->name}}</p>
                             @endif
                         </div>
                     </td>

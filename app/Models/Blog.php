@@ -63,10 +63,10 @@ class Blog extends Model
         if ($only_active) {
             $query->where('status', '!=', self::STATUS_INACTIVE);
         }
-        if ($request->input('order_by_column')) {
-            $direction = $request->input('order_by', 'asc') ?? 'asc';
-            $query->orderBy($request->input('order_by_column'), $direction);
-        } else {
+        if ($request->input('sort_order')) {
+            $order_direction = $request->input('order_by') ?? 'desc';
+            $query->orderBy($request->input('sort_order', 'id'), $order_direction);
+        }else{
             $query->orderBy('id', 'desc');
         }
 
