@@ -19,13 +19,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
-class BlogCategory extends Model
+class EventCategory extends Model
 {
     use HasFactory, CreatedUpdatedBy, SoftDeletes;
 
     protected $guarded = [];
 
-    public const PHOTO_UPLOAD_PATH = 'public/photos/uploads/blog-category/';
+    public const PHOTO_UPLOAD_PATH = 'public/photos/uploads/event-category/';
     public const PHOTO_WIDTH = 600;
     public const PHOTO_HEIGHT = 600;
 
@@ -62,7 +62,7 @@ class BlogCategory extends Model
     /**
      * @throws Exception
      */
-    private function upload_photo(Request $request, BlogCategory|Model $blog_cat): void
+    private function upload_photo(Request $request, EventCategory|Model $event_cat): void
     {
         $file = $request->file('photo');
         if (is_string($request->input('photo'))) {
@@ -72,7 +72,7 @@ class BlogCategory extends Model
             return;
         }
         $photo      = (new ImageUploadManager)->file($file)
-            ->name(Utility::prepare_name($blog_cat->name))
+            ->name(Utility::prepare_name($event_cat->name))
             ->path(self::PHOTO_UPLOAD_PATH)
             ->auto_size()
             ->watermark(false)
@@ -81,14 +81,14 @@ class BlogCategory extends Model
             'photo' => self::PHOTO_UPLOAD_PATH . $photo,
             'type'  => null,
         ];
-        if ($blog_cat->photo && !empty($blog_cat->photo?->photo)) {
-            ImageUploadManager::deletePhoto($blog_cat->photo?->photo);
-            $blog_cat->photo->delete();
+        if ($event_cat->photo && !empty($event_cat->photo?->photo)) {
+            ImageUploadManager::deletePhoto($event_cat->photo?->photo);
+            $event_cat->photo->delete();
         }
-        $blog_cat->photo()->create($media_data);
+        $event_cat->photo()->create($media_data);
     }
 
-    public function prepare_data($request, BlogCategory $category = null): array
+    public function prepare_data($request, EventCategory $category = null): array
     {
         if ($category) {
             $data['category'] = [
@@ -115,7 +115,7 @@ class BlogCategory extends Model
         return $data;
     }
 
-    public function create_category($request): Builder | Model
+    public function store_category($request): Builder | Model
     {
         $data     = $this->prepare_data($request);
         $category = self::query()->create($data['category']);
@@ -127,7 +127,7 @@ class BlogCategory extends Model
         return $category;
     }
 
-    public function update_category($request, BlogCategory $category): bool
+    public function update_category($request, EventCategory $category): bool
     {
         $data = $this->prepare_data($request, $category);
         $category->update($data['category']);
@@ -140,7 +140,7 @@ class BlogCategory extends Model
         return true;
     }
 
-    public function delete_category(BlogCategory $category): bool
+    public function delete_category(EventCategory $category): bool
     {
         if ($category->photo) {
             ImageUploadManager::deletePhoto($category->photo->photo);
@@ -159,19 +159,19 @@ class BlogCategory extends Model
     }
 
     /**
-     * @return HasMany
-     */
-    final public function sub_categories(): HasMany
-    {
-        return $this->hasMany(self::class, 'parent_id');
-    }
-
-    /**
      * @return BelongsTo
      */
     final public function parent(): BelongsTo
     {
         return $this->belongsTo(BlogCategory::class, 'parent_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    final public function sub_categories(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     /**

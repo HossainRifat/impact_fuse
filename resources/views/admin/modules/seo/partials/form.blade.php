@@ -51,10 +51,15 @@
         create: true,
         delete:true
     };
-    let tom_select = new TomSelect(".tom-select", settings);
-    let select_seo = new TomSelect(".tom-select-seo", settings);
+    try{
+        let tom_select = new TomSelect(".tom-select", settings);
+    }catch(e){
+    }
 
-
+    try{
+        let tom_select_seo = new TomSelect(".tom-select-seo", settings);
+    }catch(e){
+    }
     
     try{
         let select = new TomSelect(".meta-keywords", {
