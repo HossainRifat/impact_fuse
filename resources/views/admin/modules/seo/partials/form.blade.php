@@ -51,13 +51,15 @@
         create: true,
         delete:true
     };
+    let tom_select = null;
+    let select_seo = null;
     try{
-        let tom_select = new TomSelect(".tom-select", settings);
+        tom_select = new TomSelect(".tom-select", settings);
     }catch(e){
     }
 
     try{
-        let tom_select_seo = new TomSelect(".tom-select-seo", settings);
+        select_seo = new TomSelect(".tom-select-seo", settings);
     }catch(e){
     }
     

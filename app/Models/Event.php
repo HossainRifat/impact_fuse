@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Manager\Constants\GlobalConstant;
 use App\Manager\ImageUploadManager;
+use App\Manager\Utility\Formatter;
 use App\Manager\Utility\Utility;
 use App\Models\Traits\CreatedUpdatedBy;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,15 +20,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
-class Blog extends Model
+class Event extends Model
 {
     use HasFactory, CreatedUpdatedBy, SoftDeletes;
 
     protected $guarded = [];
 
-    public const PHOTO_UPLOAD_PATH = 'public/photos/uploads/blog-photos/';
-    public const PHOTO_WIDTH       = 600;
-    public const PHOTO_HEIGHT      = 600;
+    public const PHOTO_UPLOAD_PATH = 'public/photos/uploads/event-photos/';
 
     public const STATUS_ACTIVE   = 1;
     public const STATUS_INACTIVE = 2;
@@ -40,7 +39,7 @@ class Blog extends Model
     public const IS_SHOW_ON_HOME = 1;
     public const IS_FEATURED     = 1;
 
-    public function get_blogs(Request $request, array $column = null, bool $all = null, bool $only_active = false): Collection | LengthAwarePaginator
+    public function get_events(Request $request, array $column = null, bool $all = null, bool $only_active = false): Collection | LengthAwarePaginator
     {
         $query = self::query()->with(['photo', 'categories']);
 
@@ -77,7 +76,7 @@ class Blog extends Model
         return $query->paginate($request->input('per_page', GlobalConstant::DEFAULT_PAGINATION));
     }
 
-    public function get_blog($key, $value, $column = null): Blog | Model
+    public function get_event($key, $value, $column = null): Event | Model
     {
         $query = self::query()->with(['photo', 'categories', 'seo', 'created_by']);
         if ($column) {
@@ -86,7 +85,7 @@ class Blog extends Model
         return $query->where($key, $value)->firstOrFail();
     }
 
-    final public function get_special_blogs(bool $is_featured = false, bool $is_show_on_home = false, ?int $limit = null): Collection
+    final public function get_special_events(bool $is_featured = false, bool $is_show_on_home = false, ?int $limit = null): Collection
     {
         $query = self::query()->where('is_featured', self::IS_FEATURED)->with(['photo', 'categories']);
         if ($is_show_on_home) {
@@ -101,12 +100,12 @@ class Blog extends Model
         return $query->orderBy('id', 'desc')->get();
     }
 
-    final public function increase_click(Blog $blog): void
+    final public function increase_click(Event $event): void
     {
-        $blog->increment('impression');
+        $event->increment('impression');
     }
 
-    private function upload_photo(Request $request, Blog|Model $blog): void
+    private function upload_photo(Request $request, Event|Model $event): void
     {
         $file = $request->file('photo');
         if (is_string($request->input('photo'))) {
@@ -116,7 +115,7 @@ class Blog extends Model
             return;
         }
         $photo      = (new ImageUploadManager)->file($file)
-            ->name(Utility::prepare_name($blog->title))
+            ->name(Utility::prepare_name($event->title))
             ->path(self::PHOTO_UPLOAD_PATH)
             ->auto_size()
             ->watermark(true)
@@ -125,34 +124,36 @@ class Blog extends Model
             'photo' => self::PHOTO_UPLOAD_PATH . $photo,
             'type'  => null,
         ];
-        if ($blog->photo && !empty($blog->photo?->photo)) {
-            ImageUploadManager::deletePhoto($blog->photo?->photo);
-            $blog->photo->delete();
+        if ($event->photo && !empty($event->photo?->photo)) {
+            ImageUploadManager::deletePhoto($event->photo?->photo);
+            $event->photo->delete();
         }
-        $blog->photo()->create($media_data);
+        $event->photo()->create($media_data);
     }
 
-    public function prepare_data($request, Blog $blog = null): array
+    public function prepare_data($request, Event $event = null): array
     {
-        if ($blog) {
-            $data['blog'] = [
-                'title'           => $request->input('title') ?? $blog->name,
-                'slug'            => $request->input('slug') ?? $blog->slug,
-                'content'         => $request->input('content') ?? $blog->content,
-                'summary'         => $request->input('summary') ?? $blog->summary,
-                'tag'             => $request->input('tag') ?? $blog->tag,
-                'status'          => $request->input('status') ?? $blog->status,
+        if ($event) {
+            $data['event'] = [
+                'title'           => $request->input('title') ?? $event->name,
+                'slug'            => $request->input('slug') ?? $event->slug,
+                'content'         => $request->input('content') ?? $event->content,
+                'summary'         => $request->input('summary') ?? $event->summary,
+                'video_url'       => Formatter::youtube_url_format($request->input('video_url')),
+                'tag'             => $request->input('tag') ?? $event->tag,
+                'status'          => $request->input('status') ?? $event->status,
                 'is_featured'     => $request->input('is_featured') ?? 0,
                 'is_show_on_home' => $request->input('is_show_on_home') ?? 0,
-                'start_date'      => $request->input('start_date') ?? $blog->start_date,
-                'end_date'        => $request->input('end_date') ?? $blog->end_date,
+                'start_date'      => $request->input('start_date') ?? $event->start_date,
+                'end_date'        => $request->input('end_date') ?? $event->end_date,
             ];
         } else {
-            $data['blog'] = [
+            $data['event'] = [
                 'title'           => $request->input('title'),
                 'slug'            => $request->input('slug'),
                 'content'         => $request->input('content'),
                 'summary'         => $request->input('summary') ?? null,
+                'video_url'       => Formatter::youtube_url_format($request->input('video_url')),
                 'tag'             => $request->input('tag') ?? null,
                 'status'          => $request->input('status') ?? self::STATUS_INACTIVE,
                 'is_featured'     => $request->input('is_featured') ?? 0,
@@ -168,47 +169,48 @@ class Blog extends Model
         return $data;
     }
 
-    public function store_blog($request): Builder | Model
+    public function store_event($request): Builder | Model
     {
         $data = $this->prepare_data($request);
-        $blog = $this->create($data['blog']);
-        $seo  = $blog->seo()->create($data['seo']);
-        $blog->categories()->sync($data['categories']);
+        $event = $this->create($data['event']);
+        $seo  = $event->seo()->create($data['seo']);
+        $event->categories()->sync($data['categories']);
 
-        $this->upload_photo($request, $blog);
+        $this->upload_photo($request, $event);
         $seo->upload_photo($request, $seo);
 
-        return $blog;
+        return $event;
     }
 
-    public function update_blog($request, Blog $blog): bool
+    public function update_event($request, Event $event): bool
     {
-        $data = $this->prepare_data($request, $blog);
-        $blog->update($data['blog']);
-        $seo = $blog->seo;
+        $data = $this->prepare_data($request, $event);
+        $event->update($data['event']);
+        $seo = $event->seo;
         $seo->update($data['seo']);
-        $blog->categories()->sync($data['categories']);
+        $event->categories()->sync($data['categories']);
 
-        $this->upload_photo($request, $blog);
+        $this->upload_photo($request, $event);
         $seo->upload_photo($request, $seo, self::PHOTO_UPLOAD_PATH);
         return true;
     }
 
-    public function delete_blog(Blog $blog): bool
+    public function delete_event(Event $event): bool
     {
-        if ($blog->photo) {
-            ImageUploadManager::deletePhoto($blog->photo?->photo);
-            $blog->photo->delete();
+        if ($event->photo) {
+            ImageUploadManager::deletePhoto($event->photo?->photo);
+            $event->photo->delete();
         }
-        if ($blog->seo?->photo) {
-            ImageUploadManager::deletePhoto($blog->seo?->photo?->photo);
-            $blog->seo?->photo?->delete();
+        if ($event->seo?->photo) {
+            ImageUploadManager::deletePhoto($event->seo?->photo?->photo);
+            $event->seo?->photo?->delete();
         }
-        $blog->categories()->detach();
-        $blog->seo?->delete();
-        $blog->delete();
+        $event->categories()->detach();
+        $event->seo?->delete();
+        $event->delete();
         return true;
     }
+
 
     /**
      * @return BelongsTo
@@ -252,7 +254,7 @@ class Blog extends Model
      */
     final public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(BlogCategory::class, 'blog_category_pivot', 'blog_id', 'blog_category_id');
+        return $this->belongsToMany(EventCategory::class, 'event_category_pivot', 'event_id', 'event_category_id');
     }
 
     /**

@@ -114,7 +114,7 @@
             </div>
         </div>
         <div class="tab-pane-custom d-none" id="nav-seo">
-            @include('admin.modules.seo.partials.seo')
+            @include('admin.modules.seo.partials.show')
         </div>
     </div>
 </div>
