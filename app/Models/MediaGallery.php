@@ -53,26 +53,5 @@ class MediaGallery extends Model
         return $this->morphMany(ActivityLog::class, 'logable')->orderByDesc('id');
     }
 
-    public function get_gallery_for_home()
-    {
-        $galleries = self::query()->select('photo')->whereMorphedTo('imageable', AuthUserGallery::class)
-            ->orderByDesc('id')
-            ->take(9)
-            ->get();
-        $first     = [];
-        $second    = [];
-        $third     = [];
-        foreach ($galleries as $key => $gallery) {
-            if ($key == 0) {
-                $first[] = get_image($gallery->photo);
-            } elseif ($key < 3) {
-                $second[] = get_image($gallery->photo);
-            } else {
-                $third[] = get_image($gallery->photo);
-            }
-        }
-        return [$first, $second, $third];
 
-
-    }
 }

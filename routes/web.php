@@ -17,6 +17,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\EventCategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionAssociationController;
 use App\Http\Controllers\ServiceController;
@@ -52,6 +53,7 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::resource('service', ServiceController::class);
         Route::resource('event-category', EventCategoryController::class);
         Route::resource('event', EventController::class);
+        Route::resource('page', PageController::class);
     });
 });
 

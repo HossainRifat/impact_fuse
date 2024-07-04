@@ -118,7 +118,7 @@ class Event extends Model
             ->name(Utility::prepare_name($event->title))
             ->path(self::PHOTO_UPLOAD_PATH)
             ->auto_size()
-            ->watermark(true)
+            ->watermark(false)
             ->upload();
         $media_data = [
             'photo' => self::PHOTO_UPLOAD_PATH . $photo,
