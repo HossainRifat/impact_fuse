@@ -44,6 +44,13 @@
             <x-validation-error :errors="$errors->first('is_show_on_footer')" />
         </div>
     </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{ html()->label(__('Display Order'))->for('display_order') }}
+            {{ html()->text('display_order')->class('form-control ' . ($errors->has('display_order') ? 'is-invalid' : ''))->placeholder(__('Display Order Higher Top') ) }}
+            <x-validation-error :errors="$errors->first('display_order')" />
+        </div>
+    </div>
 </div>
 <div class="row justify-content-center">
     <div class="col-md-6">
