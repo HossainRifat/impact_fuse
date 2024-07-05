@@ -40,7 +40,6 @@ class Banner extends Model
 
     public const LOCATION_HOME_TOP = 1;
 
-
     public const LOCATION_LIST = [
         self::LOCATION_HOME_TOP => 'Hero banner Top',
     ];

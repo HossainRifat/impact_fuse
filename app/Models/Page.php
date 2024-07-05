@@ -23,8 +23,8 @@ class Page extends Model
     protected $guarded = [];
 
     public const PHOTO_UPLOAD_PATH = 'public/photos/uploads/page-photos/';
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 2;
+    public const STATUS_ACTIVE     = 1;
+    public const STATUS_INACTIVE   = 2;
 
     public const STATUS_LIST = [
         self::STATUS_ACTIVE   => 'Active',

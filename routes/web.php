@@ -19,6 +19,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\EventCategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionAssociationController;
 use App\Http\Controllers\ServiceController;
@@ -59,6 +60,7 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::get('web-credentials', [SettingController::class, 'index_credentials'])->name('setting.index_credentials');
         Route::resource('setting', SettingController::class);
         Route::resource('banner', BannerController::class);
+        Route::resource('post', PostController::class)->except(['edit', 'update']);
     });
 });
 
