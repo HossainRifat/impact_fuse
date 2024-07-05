@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleAssignController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CurrencyController;
@@ -57,6 +58,7 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::resource('page', PageController::class);
         Route::get('web-credentials', [SettingController::class, 'index_credentials'])->name('setting.index_credentials');
         Route::resource('setting', SettingController::class);
+        Route::resource('banner', BannerController::class);
     });
 });
 
