@@ -3,19 +3,19 @@
 <div class="row justify-content-center mb-4 align-items-end">
     <div class="col-md-4 mb-4">
         {{html()->label(__('Enter menu name'), 'name')}}
-        {{html()->text('name', $search['name'] ?? null)->class('form-control form-control-sm')->placeholder(__('Ex. Dashboard'))}}
+        {{html()->text('name', $search['name'] ?? null)->class('form-control f')->placeholder(__('Ex. Dashboard'))}}
     </div>
     <div class="col-md-4 mb-4">
         {{html()->label(__('Enter route name'), 'route')}}
-        {{html()->text('route', $search['route'] ?? null)->class('form-control form-control-sm')->placeholder(__('Enter route name'))}}
+        {{html()->text('route', $search['route'] ?? null)->class('form-control f')->placeholder(__('Enter route name'))}}
     </div>
     <div class="col-md-4 mb-4">
         {{html()->label( __('Order by'), 'sort_order') }}
-        {{html()->select('sort_order',$columns, $search['sort_order'] ?? null)->class('form-select form-select-sm')->placeholder(__('Select order by')) }}
+        {{html()->select('sort_order',$columns, $search['sort_order'] ?? null)->class('form-select ')->placeholder(__('Select order by')) }}
     </div>
     <div class="col-md-4 mb-4">
         {{html()->label( __('ASC/DESC'), 'order_by')}}
-        {{html()->select('order_by',['asc' => __('ASC'), 'desc' => __('DESC')], $search['order_by'] ?? null)->placeholder(__('Select ASC/DESC'))->class('form-select form-select-sm') }}
+        {{html()->select('order_by',['asc' => __('ASC'), 'desc' => __('DESC')], $search['order_by'] ?? null)->placeholder(__('Select ASC/DESC'))->class('form-select ') }}
     </div>
     <div class="col-md-4 mb-4">
         <div class="row">

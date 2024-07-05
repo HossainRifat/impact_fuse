@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="card body-card pt-5">
+    <div class="card body-card">
         <div class="card-body">
             @include('admin.modules.menu.partials.search')
             <table class="table table-striped table-hover table-bordered ">

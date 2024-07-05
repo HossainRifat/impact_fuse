@@ -55,6 +55,7 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::resource('event-category', EventCategoryController::class);
         Route::resource('event', EventController::class);
         Route::resource('page', PageController::class);
+        Route::get('web-credentials', [SettingController::class, 'index_credentials'])->name('setting.index_credentials');
         Route::resource('setting', SettingController::class);
     });
 });

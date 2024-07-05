@@ -4,7 +4,14 @@
 
 <ul class="menu">
     <li class="sidebar-title">Menu</li>
-
+    <li
+        class="sidebar-item  ">
+        <a href="/" class='sidebar-link'>
+            <i class="bi bi-grid-fill"></i>
+            <span>Dashboard</span>
+        </a>
+        
+    </li>
     @foreach($sidebar_menus as $sidebar_menu)
         @if(isset($sidebar_menu->sub_menus) && count($sidebar_menu->sub_menus) > 0 && \App\Manager\UI\MenuManager::check_permission_sub_menu($sidebar_menu->sub_menus))
         
