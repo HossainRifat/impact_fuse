@@ -21,6 +21,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionAssociationController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 
 Route::get('dash', [UserController::class, 'dashboard'])->name('invoice');
 
@@ -54,6 +55,7 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::resource('event-category', EventCategoryController::class);
         Route::resource('event', EventController::class);
         Route::resource('page', PageController::class);
+        Route::resource('setting', SettingController::class);
     });
 });
 
