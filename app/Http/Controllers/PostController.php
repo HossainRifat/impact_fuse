@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Manager\API\Traits\CommonResponse;
+use App\Manager\PostManager\Facebook;
 use App\Models\Traits\AppActivityLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,12 +27,12 @@ class PostController extends Controller
     final public function index(Request $request): View
     {
         $cms_content = [
-            'module'        => __('post'),
-            'module_url'  => route('post.index'),
+            'module'       => __('post'),
+            'module_url'   => route('post.index'),
             'active_title' => __('List'),
             'button_type'  => 'create',
-            'button_title'  => __('post Create'),
-            'button_url' => route('post.create'),
+            'button_title' => __('post Create'),
+            'button_url'   => route('post.create'),
         ];
         $posts   = (new Post())->get_posts($request);
         $search  = $request->all();
@@ -52,12 +53,12 @@ class PostController extends Controller
     final public function create(): View
     {
         $cms_content = [
-            'module' => __('post'),
-            'module_url'  => route('post.index'),
+            'module'       => __('post'),
+            'module_url'   => route('post.index'),
             'active_title' => __('Create'),
             'button_type'  => 'list',
-            'button_title'  => __('post List'),
-            'button_url' => route('post.index'),
+            'button_title' => __('post List'),
+            'button_url'   => route('post.index'),
         ];
         $status  = Post::STATUS_LIST;
         return view('admin.modules.post.create', compact('cms_content', 'status'));
@@ -71,8 +72,9 @@ class PostController extends Controller
         try {
             DB::beginTransaction();
             $post = (new Post())->store_post($request);
+            (new Facebook())->post($post);
             $original = $post->getOriginal();
-            $changed = $post->getChanges();
+            $changed  = $post->getChanges();
             self::activityLog($request, $original, $changed, $post);
             success_alert(__('post created successfully'));
             DB::commit();

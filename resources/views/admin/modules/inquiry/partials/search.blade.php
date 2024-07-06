@@ -1,18 +1,12 @@
 
-{{ html()->form('get', route('banner.index'))->id('search_form')->open() }}
+{{ html()->form('get', route('blog.index'))->id('search_form')->open() }}
 {{ html()->hidden('per_page', $search['per_page'] ?? 10)}}
 <div class="row justify-content-center mb-4 align-items-end">
     <div class="col-md-3 mb-4">
-        {{ html()->text('title', $search['title'] ?? null)->class('form-control ')->placeholder(__('Enter Title')) }}
+        {{ html()->text('search', $search['search'] ?? null)->class('form-control ')->placeholder(__('Enter Title')) }}
     </div>
     <div class="col-md-3 mb-4">
         {{ html()->select('status', $status, $search['status'] ?? null)->class('form-select ')->placeholder(__('Select Status')) }}
-    </div>
-    <div class="col-md-3 mb-4">
-        {{ html()->select('type', $types, $search['type'] ?? null)->class('form-select ')->placeholder(__('Select Type')) }}
-    </div>
-    <div class="col-md-3 mb-4">
-        {{ html()->select('location', $locations, $search['location'] ?? null)->class('form-select ')->placeholder(__('Select Location')) }}
     </div>
     <div class="col-md-3 mb-4">
         {{ html()->select('order_by_column', $columns, $search['order_by_column'] ?? null)->class('form-select ')->placeholder(__('Select Order By')) }}

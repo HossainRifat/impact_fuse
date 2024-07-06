@@ -18,6 +18,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\EventCategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
@@ -61,6 +62,7 @@ Route::middleware(LanguageMiddleware::class)->group(function () {
         Route::resource('setting', SettingController::class);
         Route::resource('banner', BannerController::class);
         Route::resource('post', PostController::class)->except(['edit', 'update']);
+        Route::resource('inquiry', InquiryController::class);
     });
 });
 
