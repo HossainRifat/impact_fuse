@@ -169,6 +169,7 @@ class User extends Authenticatable
                 'email' => $request->input('email'),
                 'phone' => $request->input('phone'),
             ]);
+            
             if ($request->has('photo')) {
                 $this->upload_profile_photo($request, $user);
             }

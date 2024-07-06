@@ -31,7 +31,7 @@ use App\Http\Controllers\SiteController;
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], static function () {
     Route::post('switch-theme', [DashboardController::class, 'switchTheme'])->name('dashboard.switch-theme');
     Route::group(['prefix' => 'my-account'], static function () {
-        Route::get('/', [UserController::class, 'create'])->name('profile.create')->middleware('permission:profile.create');
+        Route::get('/', [UserController::class, 'profile_create'])->name('profile.create')->middleware('permission:profile.create');
         Route::post('/', [UserController::class, 'store'])->name('profile.store')->middleware('permission:profile.store');
         Route::get('change-password', [PasswordController::class, 'changePassword'])->name('change-password');
         Route::post('update-password', [PasswordController::class, 'updatePassword'])->name('update-password');

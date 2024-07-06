@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Manager\API\Traits\CommonResponse;
+use Illuminate\Database\Eloquent\Casts\Json;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +14,7 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+    use CommonResponse;
     /**
      * Display the login view.
      */
@@ -34,7 +38,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request): JsonResponse
     {
         Auth::guard('web')->logout();
 
@@ -42,6 +46,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        $this->status_message = 'Logged out successfully';
+        return $this->commonApiResponse();
     }
 }

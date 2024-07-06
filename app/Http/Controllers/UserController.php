@@ -48,6 +48,7 @@ class UserController extends Controller
         return view('admin.modules.user.index', compact('cms_content', 'users', 'search', 'columns', 'roles', 'status'));
     }
 
+
     /**
      * @return View
      */
@@ -76,12 +77,11 @@ class UserController extends Controller
             'module'       => __('Profile'),
             'module_url'   => route('profile.create'),
             'active_title' => __('Update'),
-            //            'button_type'  => 'create',
-            //            'button_title' => __('Menu Create'),
-            //            'button_url'   => route('menu.create'),
+            'button_type'  => 'list',
+            'button_title' => __('Dashboard'),
+            'button_url'   => route('dashboard'),
         ];
         $user        = Auth::user();
-        //$user?->load(['profile_photo']);
 
         return view(
             'admin.modules.admin-profile.create',
