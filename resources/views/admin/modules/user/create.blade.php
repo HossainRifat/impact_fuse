@@ -2,7 +2,7 @@
 @section('content')
     <div class="card body-card pt-4">
         <div class="card-body">
-            {{html()->form('POST', route('user.store'))->id('create_form')->open()}}
+            {{ html()->form('POST', route('user.store'))->id('create_form')->attribute('enctype', 'multipart/form-data')->open() }}
             {{html()->hidden('type', 'user')->id('type')->value(old('type') ?? request()->type)}}
             <div class="row justify-content-center align-items-end">
                 <div class="col-md-12">

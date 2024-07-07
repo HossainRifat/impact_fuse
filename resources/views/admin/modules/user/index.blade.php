@@ -25,11 +25,14 @@
                             <x-serial :serial="$loop->iteration" :collection="$users"/>
                         </td>
                         <td>
-                            <div class="d-flex align-items-center justify-content-start">
+                            <div class="d-flex align-items-center">
                                 @if($user->profile_photo)
-                                    <img src="{{get_image($user->profile_photo->photo)}}" alt="profile photo" class="rounded-circle" width="40" height="40">
+                                    <img src="{{ get_image($user->profile_photo->photo) }}" alt="" width="60" height="60" class="border rounded me-2">
                                 @endif
-                                <p class="fow-bold pt-2">{{$user->name}}</p>
+                                <div class="d-flex flex-column justify-content-center gap-0">
+                                    <p class="fw-bold mb-0">{{ $user->name }}</p>
+                                    <p class="text-muted mb-0">{{ $user->designation }}</p>
+                                </div>
                             </div>
                         </td>
                         <td>

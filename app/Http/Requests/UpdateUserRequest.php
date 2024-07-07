@@ -24,12 +24,16 @@ class UpdateUserRequest extends FormRequest
     final public function rules(): array
     {
         return [
-            'name'        => 'required|string:max:255',
-            'email'       => 'required|email|max:255|unique:users,email,' . $this->route('user')->id,
-            'phone'       => ['required', new Phone],
-            'status'      => 'required|numeric|in:' . implode(',', array_keys(User::STATUS_LIST)),
-            'password'    => 'nullable|string|min:8',
-            'role_id'     => 'required|array|exists:roles,id',
+            'name'              => 'required|string:max:255',
+            'email'             => 'required|email|max:255|unique:users,email,' . $this->route('user')->id,
+            'phone'             => ['required', new Phone],
+            'status'            => 'required|numeric|in:' . implode(',', array_keys(User::STATUS_LIST)),
+            'password'          => 'nullable|string|min:8',
+            'role_id'           => 'required|array|exists:roles,id',
+            'designation'       => 'nullable|string:max:52',
+            'emergency_contact' => ['nullable', new Phone],
+            'cv'                => 'nullable|file|mimes:pdf|max:2048',
+
         ];
     }
 }

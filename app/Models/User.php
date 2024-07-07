@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Manager\Constants\GlobalConstant;
+use App\Manager\FileUploadManager;
 use App\Models\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -70,8 +71,9 @@ class User extends Authenticatable
     ];
 
     public const PHOTO_UPLOAD_PATH = 'public/photos/uploads/user-photos/';
-    public const PHOTO_WIDTH = 600;
-    public const PHOTO_HEIGHT = 600;
+    public const FILE_UPLOAD_PATH  = 'user-cv';
+    public const PHOTO_WIDTH       = 600;
+    public const PHOTO_HEIGHT      = 600;
 
     public const IMAGE_TYPE_PROFILE = 1;
     public const IMAGE_TYPE_COVER = 2;
@@ -169,7 +171,7 @@ class User extends Authenticatable
                 'email' => $request->input('email'),
                 'phone' => $request->input('phone'),
             ]);
-            
+
             if ($request->has('photo')) {
                 $this->upload_profile_photo($request, $user);
             }
@@ -185,6 +187,15 @@ class User extends Authenticatable
         return $this->morphOne(MediaGallery::class, 'imageable')
             ->where('type', self::IMAGE_TYPE_PROFILE)
             ->orderByDesc('id');
+    }
+
+    /**
+     * @return MorphOne
+     */
+    final public function cv(): MorphOne
+    {
+        return $this->morphOne(MediaGallery::class, 'imageable')
+            ->where('type', MediaGallery::TYPE_CV);
     }
 
     /**
@@ -217,6 +228,27 @@ class User extends Authenticatable
         $user->photo()->create($media_data);
     }
 
+    private function upload_attachment(Request $request, User | Model $user): void
+    {
+        $fileUploadManager = new FileUploadManager();
+        $file = $request->file('cv');
+        if (!$file) {
+            return;
+        }
+
+        if (!empty($user->cv)) {
+            $fileUploadManager->delete($user->cv?->photo);
+            $user->photos()->where('type', MediaGallery::TYPE_CV)->delete();
+        }
+
+        $data = [
+            'photo' => $fileUploadManager->file($file)->path(self::FILE_UPLOAD_PATH)->upload(),
+            'type'  => MediaGallery::TYPE_CV
+        ];
+
+        $user->photo()->create($data);
+    }
+
     private function prepare_data(Request $request, ?User $user = null): array
     {
         $data = [
@@ -226,6 +258,8 @@ class User extends Authenticatable
             'address'     => $request->input('address', null),
             'note'        => $request->input('note', null),
             'status'      => $request->input('status', self::STATUS_ACTIVE),
+            'designation' => $request->input('designation', null),
+            'emergency_contact' => $request->input('emergency_contact', null),
         ];
         if ($request->input('password')) {
             $data['password'] = Hash::make($request->input('password'));
@@ -243,6 +277,9 @@ class User extends Authenticatable
         if ($request->has('photo')) {
             $this->upload_profile_photo($request, $user);
         }
+        if ($request->has('cv')) {
+            $this->upload_attachment($request, $user);
+        }
 
         return $user;
     }
@@ -256,6 +293,9 @@ class User extends Authenticatable
         }
         if ($request->has('photo')) {
             $this->upload_profile_photo($request, $user);
+        }
+        if ($request->has('cv')) {
+            $this->upload_attachment($request, $user);
         }
         return $user;
     }

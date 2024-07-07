@@ -18,6 +18,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\EventCategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
@@ -41,6 +42,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], static function () {
     Route::post('create_new_directory', [MediaGalleryController::class, 'create_new_directory'])->name('create_new_directory')->middleware('permission:create_new_directory');
     Route::post('upload_media_library', [MediaGalleryController::class, 'upload_media_library'])->name('upload_media_library')->middleware('permission:upload_media_library');
     Route::post('delete_media_library', [MediaGalleryController::class, 'delete_media_library'])->name('delete_media_library')->middleware('permission:delete_media_library');
+
+    Route::get('show-file', [FileManagerController::class, 'show_file'])->name('show-file')->middleware('permission:show-file');
+    Route::post('delete-file', [FileManagerController::class, 'delete_file'])->name('delete-file')->middleware('permission:delete-file');
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('role', RoleController::class);

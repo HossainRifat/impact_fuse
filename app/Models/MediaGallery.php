@@ -17,12 +17,13 @@ class MediaGallery extends Model
 
     protected $guarded = [];
 
-    public const TYPE_NID = 10;
-    public const TYPE_TIN = 11;
-    public const TYPE_TRADE_LICENSE = 12;
+    public const TYPE_NID            = 10;
+    public const TYPE_TIN            = 11;
+    public const TYPE_TRADE_LICENSE  = 12;
     public const TYPE_BANK_STATEMENT = 13;
-    public const TYPE_ATTACHMENT = 14;
+    public const TYPE_ATTACHMENT     = 14;
     public const TYPE_VENDOR_GALLERY = 15;
+    public const TYPE_CV             = 16;
 
     public const TYPE_LIST = [
         self::TYPE_NID            => 'NID',
@@ -31,6 +32,7 @@ class MediaGallery extends Model
         self::TYPE_BANK_STATEMENT => 'Bank Statement',
         self::TYPE_ATTACHMENT     => 'Attachment',
         self::TYPE_VENDOR_GALLERY => 'Vendor Gallery',
+        self::TYPE_CV             => 'CV',
     ];
 
     /**

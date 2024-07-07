@@ -28,6 +28,9 @@ class AdminProfileUpdateRequest extends FormRequest
             'name'  => 'required|string:max:255',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'phone' => ['required', new Phone],
+            'emergency_contact' => ['nullable', new Phone],
+            'designation' => 'nullable|string:max:52',
+            'cv' => 'nullable|file|mimes:pdf|max:2048',
         ];
     }
 }

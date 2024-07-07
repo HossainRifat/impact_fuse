@@ -3,7 +3,7 @@
         <div class="custom-form-group">
             {{html()->label('Name', 'name')}}
             <x-required/>
-            {{html()->text('name', null)->class('form-control form-control-sm '. ($errors->has('name') ? 'is-invalid' : ''))->placeholder(__('Enter name'))}}
+            {{html()->text('name', null)->class('form-control '. ($errors->has('name') ? 'is-invalid' : ''))->placeholder(__('Enter name'))}}
             <x-validation-error :errors="$errors->first('name')"/>
         </div>
     </div>
@@ -11,7 +11,7 @@
         <div class="custom-form-group">
             {{html()->label('Email', 'email')}}
             <x-required/>
-            {{html()->text('email', null)->class('form-control form-control-sm '. ($errors->has('email') ? 'is-invalid' : ''))->placeholder(__('Enter email'))}}
+            {{html()->text('email', null)->class('form-control '. ($errors->has('email') ? 'is-invalid' : ''))->placeholder(__('Enter email'))}}
             <x-validation-error :errors="$errors->first('email')"/>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="custom-form-group">
             {{html()->label('Phone', 'phone')}}
             <x-required/>
-            {{html()->text('phone', null)->class('form-control form-control-sm '. ($errors->has('phone') ? 'is-invalid' : ''))->placeholder(__('Enter phone'))}}
+            {{html()->text('phone', null)->class('form-control '. ($errors->has('phone') ? 'is-invalid' : ''))->placeholder(__('Enter phone'))}}
             <x-validation-error :errors="$errors->first('phone')"/>
         </div>
     </div>
@@ -28,7 +28,7 @@
             {{html()->label('Password', 'password')}}
             <x-required/>
             <div class="input-group">
-                {{html()->password('password', null)->class('form-control form-control-sm '. ($errors->has('password') ? 'is-invalid' : ''))->placeholder(__('Enter password'))->disabled(isset($user))}}
+                {{html()->password('password', null)->class('form-control '. ($errors->has('password') ? 'is-invalid' : ''))->placeholder(__('Enter password'))->disabled(isset($user))}}
                 <div class="input-group-text">
                     <i class="fa fa-eye"></i>
                 </div>
@@ -52,9 +52,23 @@
     </div>
     <div class="col-md-6 mb-4">
         <div class="custom-form-group">
+            {{html()->label('Designation', 'designation')}}
+            {{html()->text('designation')->class('form-control '. ($errors->has('	designation') ? 'is-invalid' : ''))->placeholder(__('Enter Designation'))}}
+            <x-validation-error :errors="$errors->first('designation')"/>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Emergency Contact', 'emergency_contact')}}
+            {{html()->text('emergency_contact')->class('form-control '. ($errors->has('	emergency_contact') ? 'is-invalid' : ''))->placeholder(__('Enter Emergency Contact'))}}
+            <x-validation-error :errors="$errors->first('emergency_contact')"/>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
             {{html()->label('Status', 'status')}}
             <x-required/>
-            {{html()->select('status', $status)->class('form-select form-select-sm'. ($errors->has('status') ? 'is-invalid' : ''))->placeholder(__('Select Menu Status'))}}
+            {{html()->select('status', $status)->class('form-select '. ($errors->has('status') ? 'is-invalid' : ''))->placeholder(__('Select Menu Status'))}}
             <x-validation-error :errors="$errors->first('status')"/>
         </div>
     </div>
@@ -83,6 +97,14 @@
                 @endforeach
             </div>
             <x-validation-error :errors="$errors->first('role_id')"/>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('CV', 'cv')}}
+            <x-required/>
+            {{html()->file('cv')->class('form-control '. ($errors->has('cv') ? 'is-invalid' : ''))}}
+            <x-validation-error :errors="$errors->first('cv')"/>
         </div>
     </div>
 </div>
