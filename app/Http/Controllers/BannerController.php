@@ -84,6 +84,7 @@ class BannerController extends Controller
             return redirect()->route('banner.index');
         } catch (Throwable $throwable) {
             DB::rollBack();
+            dd($throwable->getMessage());
             app_error_log('banner_CREATE_FAILED', $throwable, 'error');
             failed_alert($throwable->getMessage());
             return redirect()->back();

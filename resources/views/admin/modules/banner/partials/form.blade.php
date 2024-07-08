@@ -1,18 +1,18 @@
-<div class="card body-card mb-5">
+<div class="card body-card ">
     <div class="card-body">
         <div class="row justify-content-center align-items-end">
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-12 mb-4">
                     <div class="custom-form-group">
-                        {{ html()->label(__('Page Title'))->for('title') }}
-                        {{ html()->text('title')->class('form-control ' . ($errors->has('title') ? 'is-invalid' : ''))->placeholder(__('Enter Page Title') ) }}
+                        {{ html()->label(__('Banner Title'))->for('title') }}
+                        {{ html()->text('title')->class('form-control ' . ($errors->has('title') ? 'is-invalid' : ''))->placeholder(__('Enter Banner Title') ) }}
                         <x-validation-error :errors="$errors->first('title')" />
                     </div>
                 </div>
                 <div class="col-md-12 mb-4">
                     <div class="custom-form-group">
                         {{ html()->label(__('Description'))->for('description') }}
-                        {{ html()->textarea('description')->class('form-control ' . ($errors->has('description') ? 'is-invalid' : ''))->placeholder(__('Enter Content'))->rows(5) }}
+                        {{ html()->textarea('description')->class('form-control ' . ($errors->has('description') ? 'is-invalid' : ''))->placeholder(__('Enter Description'))->rows(5) }}
                         <x-validation-error :errors="$errors->first('description')" />
                     </div>
                 </div>
@@ -21,6 +21,13 @@
                         {{ html()->label(__('Video Url'))->for('video_url') }}
                         {{ html()->text('video_url')->class('form-control ' . ($errors->has('video_url') ? 'is-invalid' : ''))->placeholder(__('Youtube Video Url') ) }}
                         <x-validation-error :errors="$errors->first('video_url')" />
+                    </div>
+                </div>
+                <div class="col-md-12 mb-4">
+                    <div class="custom-form-group">
+                        {{ html()->label(__('Banner Link'))->for('link') }}
+                        {{ html()->text('link')->class('form-control ' . ($errors->has('link') ? 'is-invalid' : ''))->placeholder(__('Banner Redirect Link') ) }}
+                        <x-validation-error :errors="$errors->first('link')" />
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -49,9 +56,10 @@
                 </div>
                 <div class="col-md-6 mb-4">
                     <div class="custom-form-group">
-                        {{ html()->label(__('Display Order'))->for('display_order') }}
-                        {{ html()->text('display_order')->class('form-control ' . ($errors->has('display_order') ? 'is-invalid' : ''))->placeholder(__('Display Order Higher Top') ) }}
-                        <x-validation-error :errors="$errors->first('display_order')" />
+                        {{ html()->label(__('Sort Order'))->for('sort_order') }}
+                        <x-required />
+                        {{ html()->text('sort_order')->class('form-control ' . ($errors->has('sort_order') ? 'is-invalid' : ''))->placeholder(__('Display Order Higher Top') ) }}
+                        <x-validation-error :errors="$errors->first('sort_order')" />
                     </div>
                 </div>
             </div>
