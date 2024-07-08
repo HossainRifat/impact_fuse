@@ -77,6 +77,19 @@ class Blog extends Model
         return $query->paginate($request->input('per_page', GlobalConstant::DEFAULT_PAGINATION));
     }
 
+    final public function get_active_blog(bool $is_show_on_home = false, bool $is_featured = false): Collection
+    {
+        $query = self::query()->with(['photo:id,imageable_type,imageable_id,photo', 'created_by:id,name'])->where('status', self::STATUS_ACTIVE)
+            ->select('id', 'title', 'slug', 'summary', 'status', 'is_featured', 'is_show_on_home', 'created_at');
+        if ($is_show_on_home) {
+            $query->where('is_show_on_home', self::IS_SHOW_ON_HOME);
+        }
+        if ($is_featured) {
+            $query->where('is_featured', self::IS_FEATURED);
+        }
+        return $query->orderBy('id', 'desc')->get();
+    }
+
     public function get_blog($key, $value, $column = null): Blog | Model
     {
         $query = self::query()->with(['photo', 'categories', 'seo', 'created_by']);
@@ -119,7 +132,7 @@ class Blog extends Model
             ->name(Utility::prepare_name($blog->title))
             ->path(self::PHOTO_UPLOAD_PATH)
             ->auto_size()
-            ->watermark(true)
+            ->watermark(false)
             ->upload();
         $media_data = [
             'photo' => self::PHOTO_UPLOAD_PATH . $photo,

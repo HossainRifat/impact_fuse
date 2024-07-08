@@ -33,9 +33,9 @@ class MediaGalleryController extends Controller
             DB::beginTransaction();
             $query = MediaGallery::query()
                 ->orderByDesc('id');
-//            if (auth('sanctum')->check()) {
-//                $query->where('user_id', auth('sanctum')->id());
-//            }
+            //            if (auth('sanctum')->check()) {
+            //                $query->where('user_id', auth('sanctum')->id());
+            //            }
             if ($request->input('path')) {
                 $query->where('photo', 'like', $request->input('path') . '%');
             }
@@ -123,7 +123,7 @@ class MediaGalleryController extends Controller
                 ->name(Utility::prepare_name('media-library'))
                 ->path($path)
                 ->auto_size()
-                ->watermark(true)
+                ->watermark(false)
                 ->upload();
             $media_data    = [
                 'photo'          => $path . $photo,

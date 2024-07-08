@@ -222,14 +222,16 @@ class Banner extends Model
      */
     final public function get_banner_by_location(array $locations)
     {
-        $cache_key = 'banner_location_' . implode('_', $locations);
-        if (Cache::has($cache_key)) {
-            return Cache::get($cache_key);
-        }
+        // $cache_key = 'banner_location_' . implode('_', $locations);
+        // if (Cache::has($cache_key)) {
+        //     return Cache::get($cache_key);
+        // }
 
-        $banners = self::query()->with('photo')->whereIn('location', $locations)->where('status', self::STATUS_ACTIVE)->orderBy('sort_order', 'asc')->with('photo')->get();
+        $banners = self::query()->with('photo')->whereIn('location', $locations)->where('status', self::STATUS_ACTIVE)->orderBy('sort_order', 'desc')->with('photo:id,imageable_type,imageable_id,photo')->select('id', 'title', 'description', 'link', 'video_url', 'location', 'type')->get();
 
-        Cache::put($cache_key, $banners, GlobalConstant::CACHE_EXPIRY);
+
+
+        // Cache::put($cache_key, $banners, GlobalConstant::CACHE_EXPIRY);
 
         return $banners;
     }

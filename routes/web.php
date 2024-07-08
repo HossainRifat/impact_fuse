@@ -19,6 +19,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\EventCategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FileManagerController;
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
@@ -69,7 +70,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], static function () {
 
 // ??make a public rout group for the front end routes
 Route::group([], function () {
-    Route::get('/', [SiteController::class, 'home'])->name('site.home');
+    Route::get('/', [HomePageController::class, 'index'])->name('home.index');
 });
 
 

@@ -76,6 +76,19 @@ class Event extends Model
         return $query->paginate($request->input('per_page', GlobalConstant::DEFAULT_PAGINATION));
     }
 
+    final public function get_active_event(bool $is_show_on_home = false, bool $is_featured = false): Collection
+    {
+        $query = self::query()->with(['photo:id,imageable_type,imageable_id,photo'])->where('status', self::STATUS_ACTIVE)
+            ->select('id', 'title', 'slug', 'summary', 'status', 'is_featured', 'is_show_on_home', 'start_date', 'end_date');
+        if ($is_show_on_home) {
+            $query->where('is_show_on_home', self::IS_SHOW_ON_HOME);
+        }
+        if ($is_featured) {
+            $query->where('is_featured', self::IS_FEATURED);
+        }
+        return $query->orderBy('id', 'desc')->get();
+    }
+
     public function get_event($key, $value, $column = null): Event | Model
     {
         $query = self::query()->with(['photo', 'categories', 'seo', 'created_by']);
