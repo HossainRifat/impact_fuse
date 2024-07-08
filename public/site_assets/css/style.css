@@ -420,7 +420,7 @@ footer .quick-links a{
     box-shadow: var(--primary-box-shadow);
     border-radius: 16px;
     height: 348px;
-    width: 348px;
+    min-width: 348px;
     display: flex;
     flex-direction: column;
     justify-content: center;
