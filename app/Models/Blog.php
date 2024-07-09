@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\ErrorHandler\Collecting;
 
 class Blog extends Model
 {
@@ -112,6 +113,17 @@ class Blog extends Model
             $query->limit($limit);
         }
         return $query->orderBy('id', 'desc')->get();
+    }
+
+    final public function get_related_blog(Blog $blog, int $limit = 10): ?Collection
+    {
+        $query = self::query()->where('id', '!=', $blog->id)->where('status', self::STATUS_ACTIVE)->with(['photo', 'categories']);
+        if ($blog->categories) {
+            $query->whereHas('categories', function ($query) use ($blog) {
+                $query->whereIn('blog_categories.id', $blog->categories->pluck('id'));
+            });
+        }
+        return $query->orderBy('id', 'desc')->limit($limit)->get();
     }
 
     final public function increase_click(Blog $blog): void

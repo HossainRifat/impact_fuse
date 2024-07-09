@@ -201,16 +201,18 @@
             <h1 class="theme-sec-title mb-4">Blogs</h1>
             <div class="row justify-content-center">
                 @foreach($blogs as $blog)
-                    <div class="col-md-4 mb-4">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
                         <div class="blog-card">
                             <img src="{{get_image($blog->photo?->photo)}}" alt="">
-                            <div class="card-body">
-                                <h4 class="fw-bolder">{{$blog->title}}</h4>
-                                <p class="blog-date">{{$blog->creted_by?->name ?? 'Author'}} | {{ \Carbon\Carbon::parse($blog->created_at)->format('M d, Y') }}</p>
+                            <div class="card-body container d-flex flex-column justify-content-between">
+                                <div>
+                                    <h4 class="fw-bolder">{{$blog->title}}</h4>
+                                    <p class="blog-date">{{$blog->created_by?->name ?? 'Author'}} | {{$blog->created_at->format('M d, Y')}}</p>
+                                </div>
                                 <p>
                                     {{Str::words($blog->summary, 16, '...')}}
                                 </p>
-                                <a href="">Read More <i class="move-right fa-solid fa-arrow-right"></i></a>
+                                <a href="{{route('home.blog', $blog->slug)}}">Read More <i class="move-right fa-solid fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -233,7 +235,6 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
         </div>
     </div>

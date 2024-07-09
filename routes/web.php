@@ -70,7 +70,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], static function () {
 
 // ??make a public rout group for the front end routes
 Route::group([], function () {
-    Route::get('/', [HomePageController::class, 'index'])->name('home.index');
+    Route::get('/', [SiteController::class, 'index'])->name('home.index');
+    Route::get('/blogs', [SiteController::class, 'blogs'])->name('home.blogs');
+    Route::get('/blog/{slug}', [SiteController::class, 'blog'])->name('home.blog');
 });
 
 
