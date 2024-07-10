@@ -100,7 +100,7 @@ class Event extends Model
 
     final public function get_special_events(bool $is_featured = false, bool $is_show_on_home = false, ?int $limit = null): Collection
     {
-        $query = self::query()->where('is_featured', self::IS_FEATURED)->with(['photo', 'categories']);
+        $query = self::query()->with(['photo', 'categories']);
         if ($is_show_on_home) {
             $query->where('is_show_on_home', self::IS_SHOW_ON_HOME);
         }
@@ -111,6 +111,29 @@ class Event extends Model
             $query->limit($limit);
         }
         return $query->orderBy('id', 'desc')->get();
+    }
+
+    final public function get_upcoming_events(int $limit = 5): ?Collection
+    {
+        return self::query()->with(['photo', 'categories'])
+            ->where('status', self::STATUS_ACTIVE)
+            ->where('start_date', '>', now())
+            ->orderBy('start_date', 'asc')
+            ->limit($limit)
+            ->get();
+    }
+
+    final public function get_related_event(Event $event, int $limit = 8): Collection
+    {
+        return self::query()->with(['photo', 'categories'])
+            ->where('status', self::STATUS_ACTIVE)
+            ->where('id', '!=', $event->id)
+            ->whereHas('categories', function ($query) use ($event) {
+                $query->whereIn('event_category_id', $event->categories->pluck('id')->toArray());
+            })
+            ->orderBy('id', 'desc')
+            ->limit($limit)
+            ->get();
     }
 
     final public function increase_click(Event $event): void

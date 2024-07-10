@@ -17,7 +17,9 @@
                     <div class="carousel-inner hero-banner">
                         @foreach($banners as $index => $banner)
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                            <img src="{{ get_image($banner->photo?->photo) }}" class="d-block w-100" alt="">
+                            <a href="{{$banner->link}}">
+                                <img src="{{ get_image($banner->photo?->photo) }}" class="d-block w-100" alt="">
+                            </a>
                         </div>
                         @endforeach
                     </div>
@@ -225,13 +227,15 @@
                 <div class="swiper-wrapper">
                     @foreach($events as $event)
                         <div class="swiper-slide">
-                            <div class="event-card"
-                                style="background-image: url('{{get_image($event->photo->photo)}}'); background-size: cover; background-position: center;">
-                                <div class="card-body">
-                                    <p class="event-date">{{ \Carbon\Carbon::parse($blog->start_at)->format('M d, Y') }}</p>
-                                    <p class="event-title">{{$event->title}}</p>
+                            <a href="{{ route('home.event-detail', $event->slug) }}" class="stretched-link">
+                                <div class="event-card"
+                                    style="background-image: url('{{ get_image($event->photo?->photo) }}'); background-size: cover; background-position: center;">
+                                    <div class="card-body">
+                                        <p class="event-date">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y') }}</p>
+                                        <p class="event-title">{{ $event->title }}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>

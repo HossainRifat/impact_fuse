@@ -10,14 +10,16 @@
                         <div class="carousel-inner hero-banner">
                             @foreach($featured_blogs as $index => $blog)
                                 <div class="carousel-item active">
-                                    <div class="blog-feature-card"
-                                        style="background-image: url('{{get_image($blog->photo?->photo)}}'); background-size: cover; background-position: center;">
-                                        <div class="card-body">
-                                            <h4 class="text-white">Featured</h4>
-                                            <h2 class="text-white">{{$blog->title}}</h2>
-                                            <p class="text-white">{{$blog->summary}}</p>
+                                    <a href="{{'home.blog', $blog->slug}}">
+                                        <div class="blog-feature-card"
+                                            style="background-image: url('{{get_image($blog->photo?->photo)}}'); background-size: cover; background-position: center;">
+                                            <div class="card-body">
+                                                <h4 class="text-white">Featured</h4>
+                                                <h2 class="text-white">{{$blog->title}}</h2>
+                                                <p class="text-white">{{$blog->summary}}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             @endforeach
                         </div>

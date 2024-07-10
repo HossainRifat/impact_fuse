@@ -78,8 +78,53 @@ class SiteController extends Controller
             return view('site.blog-detail', compact('meta_content', 'blog', 'related_blogs'));
         } catch (Throwable $e) {
             DB::rollBack();
-            dd($e->getMessage());
             app_error_log('BLOG_DETAILS_PAGE_CONTROLLER_ERROR', $e);
+            return view('site.error');
+        }
+    }
+
+    final public function events(Request $request): View
+    {
+        try {
+            DB::beginTransaction();
+            $meta_content = [
+                'title'       => 'Events',
+                'description' => 'Events',
+                'keywords'    => 'Events',
+            ];
+            $events          = (new Event())->get_events($request, null, null, true);
+            $featured_events = (new Event())->get_special_events(true, false, 8);
+            $upcoming_events = (new Event())->get_upcoming_events(5);
+            DB::commit();
+
+            return view('site.events', compact('meta_content', 'events', 'featured_events', 'upcoming_events'));
+        } catch (Throwable $e) {
+            DB::rollBack();
+            app_error_log('EVENTS_PAGE_CONTROLLER_ERROR', $e);
+            return view('site.error');
+        }
+    }
+
+    final public function event(string $slug): View
+    {
+        try {
+            DB::beginTransaction();
+            $event          = (new Event())->get_event('slug', $slug);
+            $related_events = (new Event())->get_related_event($event);
+            (new Event())->increase_click($event);
+
+            $meta_content = [
+                'title'       => $event->title,
+                'description' => $event->description,
+                'keywords'    => $event->keywords,
+            ];
+            $related_events = (new Event())->get_special_events(true, false, 8);
+            DB::commit();
+
+            return view('site.event', compact('meta_content', 'event', 'related_events'));
+        } catch (Throwable $e) {
+            DB::rollBack();
+            app_error_log('EVENT_DETAILS_PAGE_CONTROLLER_ERROR', $e);
             return view('site.error');
         }
     }

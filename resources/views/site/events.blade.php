@@ -8,54 +8,18 @@
                 <div class="col-12">
                     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner hero-banner">
-                            <div class="carousel-item active">
-                                <div class="blog-feature-card"
-                                    style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                                    <div class="card-body">
-                                        <h4 class="text-white">Featured</h4>
-                                        <h2 class="text-white">Graphics and Ui design</h2>
-                                        <p class="text-white">Lorem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                            text ever since the 1500s, when an unknown printer took a galley of type
-                                            and scrambled it to make a type specimen book. There are many variations
-                                            of passages of Lorem Ipsum available, but the majority have suffered
-                                            alteration in some form, by injected humour, or randomised words which
-                                            don't look even slightly believable</p>
+                            @foreach($featured_events as $index => $event)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <div class="blog-feature-card"
+                                        style="background-image: url('{{ get_image($event->photo?->photo) }}'); background-size: cover; background-position: center;">
+                                        <div class="card-body">
+                                            <h4 class="text-white">Featured</h4>
+                                            <h2 class="text-white">{{ $event->title }}</h2>
+                                            <p class="text-white">{{ $event->summary }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="blog-feature-card"
-                                    style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                                    <div class="card-body">
-                                        <h4 class="text-white">Featured</h4>
-                                        <h2 class="text-white">Graphics and Ui design</h2>
-                                        <p class="text-white">Lorem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                            text ever since the 1500s, when an unknown printer took a galley of type
-                                            and scrambled it to make a type specimen book. There are many variations
-                                            of passages of Lorem Ipsum available, but the majority have suffered
-                                            alteration in some form, by injected humour, or randomised words which
-                                            don't look even slightly believable</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="blog-feature-card"
-                                    style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                                    <div class="card-body">
-                                        <h4 class="text-white">Featured</h4>
-                                        <h2 class="text-white">Graphics and Ui design</h2>
-                                        <p class="text-white">Lorem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                            text ever since the 1500s, when an unknown printer took a galley of type
-                                            and scrambled it to make a type specimen book. There are many variations
-                                            of passages of Lorem Ipsum available, but the majority have suffered
-                                            alteration in some form, by injected humour, or randomised words which
-                                            don't look even slightly believable</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <button class="carousel-control-prev" type="button"
                             data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -76,85 +40,32 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 mb-4">
-                    <div class="event-long-card d-sm-flex flex-row">
-                        <div
-                            class="event-date bg-theme d-flex flex-column justify-content-center align-items-center p-4">
-                            <h1 class="text-white date">12</h1>
-                            <h1 class="text-white month">JUN</h1>
-                        </div>
-                        <div class="event-image">
-                            <img src="assets/hero_banner.jpeg" alt="event-image" class="img-fluid">
-                        </div>
-                        <div class="event-info">
-                            <h2>Graphics and Ui design</h2>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                Ipsum
-                                has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                printer took a galley of type and scrambled it to make a type specimen book. There
-                                are
-                                many variations.</p>
-                        </div>
-                        <div class="event-share d-flex flex-column justify-content-center gap-2 align-items-center">
-                            <i class="fa-brands fa-square-facebook"></i>
-                            <i class="fa-brands fa-square-x-twitter"></i>
-                            <i class="fa-brands fa-linkedin"></i>
-                            <i class="fa-brands fa-square-instagram"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 mb-4">
-                    <div class="event-long-card d-sm-flex flex-row">
-                        <div
-                            class="event-date bg-theme d-flex flex-column justify-content-center align-items-center p-4">
-                            <h1 class="text-white date">12</h1>
-                            <h1 class="text-white month">JUN</h1>
-                        </div>
-                        <div class="event-image">
-                            <img src="assets/hero_banner.jpeg" alt="event-image" class="img-fluid">
-                        </div>
-                        <div class="event-info">
-                            <h2>Graphics and Ui design</h2>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                Ipsum
-                                has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                printer took a </p>
-                        </div>
-                        <div class="event-share d-flex flex-column justify-content-center gap-2 align-items-center">
-                            <i class="fa-brands fa-square-facebook"></i>
-                            <i class="fa-brands fa-square-x-twitter"></i>
-                            <i class="fa-brands fa-linkedin"></i>
-                            <i class="fa-brands fa-square-instagram"></i>
+                @foreach($upcoming_events as $event)
+                    <div class="col-12 mb-4">
+                        <div class="event-long-card d-sm-flex flex-row">
+                            <div
+                                class="event-date bg-theme d-flex flex-column justify-content-center align-items-center p-4">
+                                <h1 class="text-white date">{{ \Carbon\Carbon::parse($event->start_date)->format('d') }}</h1>
+                                <h1 class="text-white month">{{ strtoupper(\Carbon\Carbon::parse($event->start_date)->format('M')) }}</h1>
+                            </div>
+                            <div class="event-image">
+                                <img src="{{get_image($event->photo?->photo)}}" alt="event-image" class="img-fluid">
+                            </div>
+                            <div class="event-info">
+                                <a href="{{route('home.event-detail', $event->slug)}}" class="text-decoration-none text-dark">
+                                    <h2>{{$event->title}}</h2>
+                                    <p>{{$event->summary}}</p>
+                                </a>
+                            </div>
+                            <div class="event-share d-flex flex-column justify-content-center gap-2 align-items-center">
+                                <i class="fa-brands fa-square-facebook"></i>
+                                <i class="fa-brands fa-square-twitter"></i>
+                                <i class="fa-brands fa-linkedin"></i>
+                                <i class="fa-brands fa-square-instagram"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 mb-4">
-                    <div class="event-long-card d-sm-flex flex-row">
-                        <div
-                            class="event-date bg-theme d-flex flex-column justify-content-center align-items-center p-4">
-                            <h1 class="text-white date">12</h1>
-                            <h1 class="text-white month">JUN</h1>
-                        </div>
-                        <div class="event-image">
-                            <img src="assets/hero_banner.jpeg" alt="event-image" class="img-fluid">
-                        </div>
-                        <div class="event-info">
-                            <h2>Graphics and Ui design</h2>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                Ipsum
-                                has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                printer took a galley of type and scrambled it to make a type specimen book. There
-                                are
-                                many variations.</p>
-                        </div>
-                        <div class="event-share d-flex flex-column justify-content-center gap-2 align-items-center">
-                            <i class="fa-brands fa-square-facebook"></i>
-                            <i class="fa-brands fa-square-x-twitter"></i>
-                            <i class="fa-brands fa-linkedin"></i>
-                            <i class="fa-brands fa-square-instagram"></i>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <div class="row">
                 <div class="col-12 mt-4 mb-2">
@@ -162,104 +73,23 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
+                @foreach($events as $event)
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <a href="{{ route('home.event-detail', $event->slug) }}" class="stretched-link">
+                            <div class="event-card"
+                                style="background-image: url('{{ get_image($event->photo?->photo) }}'); background-size: cover; background-position: center;">
+                                <div class="card-body">
+                                    <p class="event-date">{{ \Carbon\Carbon::parse($event->start_date)->format('M d, Y') }}</p>
+                                    <p class="event-title">{{ $event->title }}</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="event-card"
-                        style="background-image: url('assets/hero_banner.jpeg'); background-size: cover; background-position: center;">
-                        <div class="card-body">
-                            <p class="event-date">May 22, 2024</p>
-                            <p class="event-title">Graphics and Ui design</p>
-                        </div>
-                    </div>
+                @endforeach
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-12">
+                    {!!$events->links('admin.global-partials.bootstrap-5')!!}
                 </div>
             </div>
         </div>
