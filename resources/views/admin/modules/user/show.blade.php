@@ -15,8 +15,8 @@
                             <td>{{$user->name}}</td>
                         </tr>
                         <tr>
-                            <th>Designation</th>
-                            <td>{{$user->designation ?? 'N/A'}}</td>
+                            <th>@lang('Email')</th>
+                            <td>{{$user->email}}</td>
                         </tr>
                         <tr>
                             <th>Phone</th>
@@ -27,8 +27,32 @@
                             <td>{{$user->emergency_contact ?? 'N/A'}}</td>
                         </tr>
                         <tr>
-                            <th>@lang('Email')</th>
-                            <td>{{$user->email}}</td>
+                            <th>Designation</th>
+                            <td>{{$user->designation ?? 'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Department</th>
+                            <td>{{$user->department ?? 'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Start Date</th>
+                            <td>{{ \Carbon\Carbon::parse($user->start_date)->format('d M, Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>End Date</th>
+                            <td>{{ \Carbon\Carbon::parse($user->end_date)->format('d M, Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Responsibility</th>
+                            @if($user->responsibility)
+                                <td>
+                                    @foreach(explode(',', $user->responsibility) as $responsibility)
+                                        <span class="badge bg-primary">{{$responsibility}}</span>
+                                    @endforeach
+                                </td>
+                            @else
+                                <td>N/A</td>
+                            @endif
                         </tr>
                         <tr>
                             <th>@lang('Profile Photo')</th>
@@ -82,6 +106,10 @@
                         <tr>
                             <th>Note</th>
                             <td>{{$user->note ?? 'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Sort Order</th>
+                            <td>{{$user->sort_order ?? 'N/A'}}</td>
                         </tr>
                         <tr>
                             <th>@lang('Last Activity')</th>

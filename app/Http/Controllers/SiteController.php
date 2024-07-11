@@ -7,6 +7,7 @@ use App\Models\Blog;
 use App\Models\Event;
 use App\Models\Service;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -125,6 +126,29 @@ class SiteController extends Controller
         } catch (Throwable $e) {
             DB::rollBack();
             app_error_log('EVENT_DETAILS_PAGE_CONTROLLER_ERROR', $e);
+            return view('site.error');
+        }
+    }
+
+    final public function members(): View
+    {
+        try {
+            DB::beginTransaction();
+            $meta_content = [
+                'title'       => 'Members',
+                'description' => 'Members',
+                'keywords'    => 'Members',
+            ];
+            $members   = (new User())->get_active_members();
+            $site_data = Setting::get_setting(['member-page']);
+            DB::commit();
+
+            // dd($members, $site_data);
+
+            return view('site.members', compact('meta_content', 'members', 'site_data'));
+        } catch (Throwable $e) {
+            DB::rollBack();
+            app_error_log('MEMBERS_PAGE_CONTROLLER_ERROR', $e);
             return view('site.error');
         }
     }

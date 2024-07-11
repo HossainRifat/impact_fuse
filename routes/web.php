@@ -75,6 +75,7 @@ Route::group([], function () {
     Route::get('blog/{slug}', [SiteController::class, 'blog'])->name('home.blog');
     Route::get('events', [SiteController::class, 'events'])->name('home.events');
     Route::get('event/{slug}', [SiteController::class, 'event'])->name('home.event-detail');
+    Route::get('members', [SiteController::class, 'members'])->name('home.members');
 });
 
 

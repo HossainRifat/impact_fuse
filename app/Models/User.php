@@ -54,12 +54,12 @@ class User extends Authenticatable
      * @return array<string, string>
      */
 
-    public const STATUS_INACTIVE = 0;
-    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE  = 6;
+    public const STATUS_ACTIVE    = 1;
     public const STATUS_SUSPENDED = 2;
-    public const STATUS_BLOCKED = 3;
-    public const STATUS_PENDING = 4;
-    public const STATUS_REJECTED = 5;
+    public const STATUS_BLOCKED   = 3;
+    public const STATUS_PENDING   = 4;
+    public const STATUS_REJECTED  = 5;
 
     public const STATUS_LIST = [
         self::STATUS_INACTIVE  => 'Inactive',
@@ -106,7 +106,11 @@ class User extends Authenticatable
         }
 
         if ($request->input('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+            $query->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%')
+                    ->orWhere('email', 'like', '%' . $request->input('name') . '%')
+                    ->orWhere('phone', 'like', '%' . $request->input('name') . '%');
+            });
         }
         if ($request->input('phone')) {
             $query->where('phone', $request->input('phone'));
@@ -122,6 +126,21 @@ class User extends Authenticatable
                 $query->where('id', $request->input('role'));
             });
         }
+        if ($request->input('department')) {
+            $query->where('department', 'like', '%' . $request->input('department') . '%');
+        }
+        if ($request->input('designation')) {
+            $query->where('designation', 'like', '%' . $request->input('designation') . '%');
+        }
+        if ($request->input('start_date')) {
+            $query->whereDate('start_date', '>=', $request->input('start_date'));
+        }
+        if ($request->input('end_date')) {
+            $query->whereDate('end_date', '<=', $request->input('end_date'));
+        }
+        if ($request->input('responsibility')) {
+            $query->where('responsibility', 'like', '%' . $request->input('responsibility') . '%');
+        }
         if ($request->input('order_by_column')) {
             $direction = $request->input('order_by', 'desc');
             $query->orderBy($request->input('order_by_column', 'id'), $direction);
@@ -129,26 +148,13 @@ class User extends Authenticatable
         return $query->paginate($request->input('per_page', GlobalConstant::DEFAULT_PAGINATION));
     }
 
-    final public function get_user_by_role(?Request $request = null, string $role_name, ?int $imit = null): ?Collection
+    final public function get_active_members(): Collection
     {
-        $query = self::query()->where('status', self::STATUS_ACTIVE)
-            ->whereHas('roles', function ($query) use ($role_name) {
-                $query->where('name', 'like', '%' . $role_name . '%');
+        return self::query()->where('status', self::STATUS_ACTIVE)->with('profile_photo')
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'Volunteer');
             })
-            ->select('id', 'name', 'email', 'phone', 'account_number')->orderByDesc('id');
-
-        if ($request?->input('search')) {
-            $query->where(function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->input('search') . '%');
-                $query->orWhere('email', 'like', '%' . $request->input('search') . '%');
-                $query->orWhere('phone', 'like', '%' . $request->input('search') . '%');
-            });
-        }
-
-        if ($imit) {
-            return $query->limit($imit)->get();
-        }
-        return $query->get();
+            ->orderBy('sort_order', 'desc')->get();
     }
 
     final public function get_user_by_id(int $user_id)
@@ -252,14 +258,20 @@ class User extends Authenticatable
     private function prepare_data(Request $request, ?User $user = null): array
     {
         $data = [
-            'name'        => $request->input('name'),
-            'email'       => $request->input('email'),
-            'phone'       => $request->input('phone', null),
-            'address'     => $request->input('address', null),
-            'note'        => $request->input('note', null),
-            'status'      => $request->input('status', self::STATUS_ACTIVE),
-            'designation' => $request->input('designation', null),
+            'name'              => $request->input('name'),
+            'email'             => $request->input('email'),
+            'phone'             => $request->input('phone', null),
+            'address'           => $request->input('address', null),
+            'note'              => $request->input('note', null),
+            'status'            => $request->input('status', self::STATUS_ACTIVE),
+            'designation'       => $request->input('designation', null),
             'emergency_contact' => $request->input('emergency_contact', null),
+            'date_of_birth'     => $request->input('date_of_birth', null),
+            'start_date'        => $request->input('start_date', null),
+            'end_date'          => $request->input('end_date', null),
+            'sort_order'        => $request->input('sort_order', null),
+            'department'        => $request->input('department', null),
+            'responsibility'    => $request->input('responsibility', null),
         ];
         if ($request->input('password')) {
             $data['password'] = Hash::make($request->input('password'));

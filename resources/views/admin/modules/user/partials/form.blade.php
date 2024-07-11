@@ -36,6 +36,34 @@
             <x-validation-error :errors="$errors->first('password')"/>
         </div>
     </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Designation', 'designation')}}
+            {{html()->text('designation')->class('form-control '. ($errors->has('	designation') ? 'is-invalid' : ''))->placeholder(__('Enter Designation'))}}
+            <x-validation-error :errors="$errors->first('designation')"/>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Emergency Contact', 'emergency_contact')}}
+            {{html()->text('emergency_contact')->class('form-control '. ($errors->has('	emergency_contact') ? 'is-invalid' : ''))->placeholder(__('Enter Emergency Contact'))}}
+            <x-validation-error :errors="$errors->first('emergency_contact')"/>
+        </div>
+    </div>
+    <div class="col-md-12 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Department', 'department')}}
+            {{html()->text('department', null)->class('form-control '. ($errors->has('department') ? 'is-invalid' : ''))->placeholder(__('Enter Department'))}}
+            <x-validation-error :errors="$errors->first('department')"/>
+        </div>
+    </div>
+    <div class="col-md-12 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Responsibility', 'responsibility')}}
+            {{html()->text('responsibility', null)->class('tom-select '. ($errors->has('responsibility') ? 'is-invalid' : ''))->placeholder(__('Enter Responsibility'))}}
+            <x-validation-error :errors="$errors->first('responsibility')"/>
+        </div>
+    </div>
     <div class="col-md-12 mb-4">
         <div class="custom-form-group">
             {{html()->label('Address', 'address')}}
@@ -52,16 +80,30 @@
     </div>
     <div class="col-md-6 mb-4">
         <div class="custom-form-group">
-            {{html()->label('Designation', 'designation')}}
-            {{html()->text('designation')->class('form-control '. ($errors->has('	designation') ? 'is-invalid' : ''))->placeholder(__('Enter Designation'))}}
-            <x-validation-error :errors="$errors->first('designation')"/>
+            {{html()->label('Start Date', 'start_date')}}
+            {{html()->date('start_date')->class('form-control '. ($errors->has('start_date') ? 'is-invalid' : ''))->placeholder(__('Enter Joining Date'))}}
+            <x-validation-error :errors="$errors->first('start_date')"/>
         </div>
     </div>
     <div class="col-md-6 mb-4">
         <div class="custom-form-group">
-            {{html()->label('Emergency Contact', 'emergency_contact')}}
-            {{html()->text('emergency_contact')->class('form-control '. ($errors->has('	emergency_contact') ? 'is-invalid' : ''))->placeholder(__('Enter Emergency Contact'))}}
-            <x-validation-error :errors="$errors->first('emergency_contact')"/>
+            {{html()->label('End Date', 'end_date')}}
+            {{html()->date('end_date')->class('form-control '. ($errors->has('end_date') ? 'is-invalid' : ''))->placeholder(__('Enter Retirement Date'))}}
+            <x-validation-error :errors="$errors->first('end_date')"/>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Date of Birth', 'date_of_birth')}}
+            {{html()->date('date_of_birth')->class('form-control '. ($errors->has('date_of_birth') ? 'is-invalid' : ''))->placeholder(__('Enter Date of Birth'))}}
+            <x-validation-error :errors="$errors->first('date_of_birth')"/>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Sort Order', 'sort_order')}}
+            {{html()->number('sort_order')->class('form-control '. ($errors->has('sort_order') ? 'is-invalid' : ''))->placeholder(__('Higer Number will be shown first'))}}
+            <x-validation-error :errors="$errors->first('sort_order')"/>
         </div>
     </div>
     <div class="col-md-6 mb-4">
@@ -126,15 +168,28 @@
 </div>
 
 @push('scripts')
-       <script>
-            $('.input-group-text').on('click', function () {
-                $(this).children('i').toggleClass('fa-eye-slash');
-                let type = $(this).siblings('input').attr('type');
-                if (type == 'password') {
-                    $(this).siblings('input').attr('type', 'text');
-                } else {
-                    $(this).siblings('input').attr('type', 'password');
-                }
-            })
-        </script>
+    <script>
+        $('.input-group-text').on('click', function () {
+            $(this).children('i').toggleClass('fa-eye-slash');
+            let type = $(this).siblings('input').attr('type');
+            if (type == 'password') {
+                $(this).siblings('input').attr('type', 'text');
+            } else {
+                $(this).siblings('input').attr('type', 'password');
+            }
+        })
+
+        const settings = {
+            plugins: ['remove_button'],
+            persist: false,
+            createOnBlur: true,
+            create: true,
+            delete:true
+        };
+        let tom_select = null;
+        try{
+            tom_select = new TomSelect(".tom-select", settings);
+        }catch(e){
+        }
+    </script>
 @endpush

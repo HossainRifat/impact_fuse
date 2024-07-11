@@ -1,13 +1,33 @@
 {{html()->form('get',route('user.index'))->id('search_form')->open()}}
 {{html()->hidden('per_page')->value($search['per_page'] ?? \App\Manager\Constants\GlobalConstant::DEFAULT_PAGINATION)}}
 <div class="row justify-content-center mb-4 align-items-end">
-    <div class="col-md-4 mb-4">
+    <div class="col-md-8 mb-4">
         {{html()->label(__('Enter name'), 'name')}}
-        {{html()->text('name', $search['name'] ?? null)->class('form-control ')->placeholder(__('Ex. John Doe'))}}
+        {{html()->text('name', $search['name'] ?? null)->class('form-control ')->placeholder(__('Ex. John Doe / jon@impactfuse.com / 1234567890'))}}
     </div>
     <div class="col-md-4 mb-4">
         {{html()->label( __('Role'), 'role') }}
         {{html()->select('role',$roles, $search['role'] ?? null)->class('form-select ')->placeholder(__('Select role')) }}
+    </div>
+    <div class="col-md-4 mb-4">
+        {{html()->label( __('Status'), 'status') }}
+        {{html()->select('status',$status, $search['status'] ?? null)->class('form-select ')->placeholder(__('Select status')) }}
+    </div>
+    <div class="col-md-4 mb-4">
+        {{html()->label( __('Start Date'), 'start_date') }}
+        {{html()->date('start_date', $search['start_date'] ?? null)->class('form-control ')->placeholder(__('Select start date')) }}
+    </div>
+    <div class="col-md-4 mb-4">
+        {{html()->label( __('End Date'), 'end_date') }}
+        {{html()->date('end_date', $search['end_date'] ?? null)->class('form-control ')->placeholder(__('Select end date')) }}
+    </div>
+    <div class="col-md-4 mb-4">
+        {{html()->label( __('Designation'), 'designation') }}
+        {{html()->text('designation', $search['designation'] ?? null)->class('form-control ')->placeholder(__('Ex. Manager')) }}
+    </div>
+    <div class="col-md-4 mb-4">
+        {{html()->label( __('Department'), 'department') }}
+        {{html()->text('department', $search['department'] ?? null)->class('form-control ')->placeholder(__('Ex. HR')) }}
     </div>
     <div class="col-md-4 mb-4">
         {{html()->label( __('Order by'), 'sort_order') }}
