@@ -3,6 +3,7 @@
 namespace App\Manager\Site;
 
 use App\Manager\Constants\GlobalConstant;
+use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 
@@ -24,9 +25,11 @@ trait SiteTrait
             'youtube-link',
         ];
 
-        $site_data = (new Setting())->get_setting($required_data);
-        Cache::put('site_data', $site_data, GlobalConstant::CACHE_EXPIRY);
+        $site_data                 = (new Setting())->get_setting($required_data);
+        $site_data['pages_footer'] = (new Page())->get_active_page('footer');
+        $site_data['pages_header'] = (new Page())->get_active_page('header');
 
+        Cache::put('site_data', $site_data, GlobalConstant::CACHE_EXPIRY);
         return $site_data;
     }
 }

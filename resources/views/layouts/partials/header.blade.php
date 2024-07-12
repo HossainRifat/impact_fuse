@@ -11,9 +11,6 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="page.html">About Us</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{route('home.members')}}">Volunteer</a>
                 </li>
                 <li class="nav-item">
@@ -22,6 +19,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('home.blogs')}}">Blog</a>
                 </li>
+                @isset($site_content['pages_header'])
+                    @forelse($site_content['pages_header'] as $slug => $title)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('home.page', $slug)}}">{{$title}}</a>
+                        </li>
+                    @empty
+                    @endforelse
+                @endisset
             </ul>
         </div>
     </div>

@@ -9,7 +9,7 @@
                     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner hero-banner">
                             @foreach($featured_blogs as $index => $blog)
-                                <div class="carousel-item active">
+                                <div class="carousel-item {{$index == 0 ? 'active' : ''}}">
                                     <a href="{{'home.blog', $blog->slug}}">
                                         <div class="blog-feature-card"
                                             style="background-image: url('{{get_image($blog->photo?->photo)}}'); background-size: cover; background-position: center;">

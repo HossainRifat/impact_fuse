@@ -66,6 +66,19 @@ class Page extends Model
         return $query->paginate(GlobalConstant::DEFAULT_PAGINATION)->withQueryString();
     }
 
+    final public function get_active_page(string $type): ?array{
+        if ($type === 'header') {
+            return self::query()->where('is_show_on_header', self::IS_SHOW_ON_HEADER)->where('status', self::STATUS_ACTIVE)->orderBy('display_order', 'desc')->pluck('title', 'slug')->toArray();
+        }else{
+            return self::query()->where('is_show_on_footer', self::IS_SHOW_ON_FOOTER)->where('status', self::STATUS_ACTIVE)->orderBy('display_order', 'desc')->pluck('title', 'slug')->toArray();
+        }
+    }
+
+    final public function get_by_slug(string $slug): Builder | Model
+    {
+        return self::query()->where('slug', $slug)->with(['photo', 'seo'])->first();
+    }
+
     private function upload_photo(Request $request, Page|Model $page): void
     {
         $file = $request->file('photo');

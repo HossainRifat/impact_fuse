@@ -7,18 +7,29 @@
                     {{$site_content['footer-about-us'] ?? ''}} 
                 </p>
             </div>
-            <div class="col-12 col-lg-4 text-center quick-links">
+            <div class="col-12 col-lg-3 text-center quick-links">
                 <h2>Quick links</h2>
                 <ul class="m-0 p-0">
                     <li><a href="/">Home</a></li>
-                    <li><a href="">About Us</a></li>
+
                     <li><a href="{{route('home.members')}}">Volunteer</a></li>
                     <li><a href="{{route('home.events')}}">Event</a></li>
                     <li><a href="{{route('home.blogs')}}">Blog</a></li>
                     <li><a href="">Contact Us</a></li>
                 </ul>
             </div>
-            <div class="col-12 col-lg-4 text-center quick-links">
+            <div class="col-12 col-lg-3 text-center quick-links">
+                <h2>Pages</h2>
+                <ul class="m-0 p-0">
+                    @isset($site_content['pages_header'])
+                    @forelse($site_content['pages_header'] as $slug => $title)
+                        <li><a href="{{route('home.page', $slug)}}">{{$title}}</a></li>
+                    @empty
+                    @endforelse
+                @endisset
+                </ul>
+            </div>
+            <div class="col-12 col-lg-2 text-center quick-links">
                 <h2 class="mb-4">Follow us</h2>
                 <div class="d-flex flex-row gap-4 justify-content-center">
                     <a href="{{$site_content['facebook-link'] ?? ''}}" target="_blank"><i class="fs-1 fab fa-facebook"></i></a>
