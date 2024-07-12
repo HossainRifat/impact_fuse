@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInquiryRequest;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Event;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Throwable;
 use App\Manager\Site\SiteTrait;
+use App\Models\Inquiry;
 use App\Models\Page;
 
 class SiteController extends Controller
@@ -59,7 +61,7 @@ class SiteController extends Controller
                 'description' => 'Blogs',
                 'keywords'    => 'Blogs',
             ];
-        
+
             $site_content   = $this->site_content;
             $blogs          = (new Blog())->get_blogs($request);
             $featured_blogs = (new Blog())->get_active_blog(false, true);
@@ -191,6 +193,47 @@ class SiteController extends Controller
         } catch (Throwable $e) {
             DB::rollBack();
             app_error_log('PAGE_PAGE_CONTROLLER_ERROR', $e);
+            return view('site.error');
+        }
+    }
+
+    final public function contact_us(): View
+    {
+        try {
+            DB::beginTransaction();
+            $meta_content = [
+                'title'       => 'Contact Us',
+                'description' => 'Contact Us',
+                'keywords'    => 'Contact Us',
+            ];
+            $site_content = $this->site_content;
+            $contact_data = Setting::get_setting(['email', 'phone', 'address', 'website']);
+            DB::commit();
+            return view('site.contact-us', compact('meta_content', 'site_content', 'contact_data'));
+        } catch (Throwable $e) {
+            DB::rollBack();
+            app_error_log('CONTACT_US_PAGE_CONTROLLER_ERROR', $e);
+            return view('site.error');
+        }
+    }
+
+    final public function contact_us_store(StoreInquiryRequest $request): View
+    {
+        try {
+            DB::beginTransaction();
+            $meta_content = [
+                'title'       => 'Contact Us',
+                'description' => 'Contact Us',
+                'keywords'    => 'Contact Us',
+            ];
+            (new Inquiry())->store_inquiry($request);
+            $site_content = $this->site_content;
+            DB::commit();
+
+            return view('site.contact-us', compact('meta_content', 'site_content'))->with('success', 'Your inquiry has been submitted successfully. We will get back to you soon.');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            app_error_log('CONTACT_US_PAGE_CONTROLLER_ERROR', $e);
             return view('site.error');
         }
     }

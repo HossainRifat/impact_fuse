@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{asset('site_assets/css/style.css')}}">
 
     @include('layouts.partials.meta')
+
+    @stack('head')
 </head>
 
 <body>
@@ -102,6 +104,8 @@
             }
         });
     </script>
+
+    @stack('scripts')
 </body>
 
 </html>

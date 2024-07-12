@@ -23,6 +23,9 @@ trait SiteTrait
             'x-link',
             'linkedin-link',
             'youtube-link',
+            'email',
+            'phone',
+            'address',
         ];
 
         $site_data                 = (new Setting())->get_setting($required_data);
