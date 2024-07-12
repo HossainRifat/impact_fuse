@@ -130,9 +130,9 @@ class SiteController extends Controller
             (new Event())->increase_click($event);
 
             $meta_content = [
-                'title'       => $event->title,
-                'description' => $event->description,
-                'keywords'    => $event->keywords,
+                'title'       => $event->seo?->title,
+                'description' => $event->seo?->description,
+                'keywords'    => $event->seo?->keywords,
             ];
             $site_content   = $this->site_content;
             $related_events = (new Event())->get_special_events(true, false, 8);
