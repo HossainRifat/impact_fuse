@@ -104,11 +104,11 @@
                                        <use
                                            xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
                                    </svg>
-                                   <h5 class="mb-0 ms-3">Volentiars</h5>
+                                   <h5 class="mb-0 ms-3">Volunteers</h5>
                                </div>
                            </div>
                            <div class="col-5">
-                               <h5 class="mb-0 text-end">862</h5>
+                               <h5 class="mb-0 text-end">{{number_format($dash_data['users'] ?? 0)}}</h5>
                            </div>
                            <div class="col-12">
                                <div id="chart-europe"></div>
@@ -245,7 +245,7 @@
             },
         ],
         chart: {
-            height: 350,
+            height: 250,
             type: "area",
             toolbar: {
             show: false,
