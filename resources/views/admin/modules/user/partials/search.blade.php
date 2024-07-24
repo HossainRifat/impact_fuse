@@ -22,6 +22,10 @@
         {{html()->date('end_date', $search['end_date'] ?? null)->class('form-control ')->placeholder(__('Select end date')) }}
     </div>
     <div class="col-md-4 mb-4">
+        {{html()->label( __('Gender'), 'gender') }}
+        {{html()->select('gender',$genders, $search['gender'] ?? null)->class('form-select ')->placeholder(__('Select gender')) }}
+    </div>
+    <div class="col-md-4 mb-4">
         {{html()->label( __('Designation'), 'designation') }}
         {{html()->text('designation', $search['designation'] ?? null)->class('form-control ')->placeholder(__('Ex. Manager')) }}
     </div>

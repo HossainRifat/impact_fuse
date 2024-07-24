@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], static function () {
     Route::resource('role-assign', RoleAssignController::class);
     Route::resource('role-permission-association', RolePermissionAssociationController::class);
     Route::resource('menu', MenuController::class);
-
+    
     Route::resource('user', UserController::class);
     Route::resource('blog-category', BlogCategoryController::class);
     Route::resource('blog', BlogController::class);
@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], static function () {
 });
 
 // ??make a public rout group for the front end routes
-Route::group([], function () {
+Route::group(['middleware' => 'visit_count'], function () {
     Route::get('/', [SiteController::class, 'index'])->name('home.index');
     Route::get('blogs', [SiteController::class, 'blogs'])->name('home.blogs');
     Route::get('blog/{slug}', [SiteController::class, 'blog'])->name('home.blog');

@@ -23,6 +23,10 @@
                             <td>{{$user->phone}}</td>
                         </tr>
                         <tr>
+                            <th>Gender</th>
+                            <td> <span class="badge bg-primary"> {{\App\Models\User::GENDER_LIST[$user->gender] ?? 'N/A'}}</span></td>
+                        </tr>
+                        <tr>
                             <th>Emergency Contact</th>
                             <td>{{$user->emergency_contact ?? 'N/A'}}</td>
                         </tr>
@@ -128,7 +132,7 @@
                                     <x-active :status="$user->status"/>
                                 @else
                                     <x-inactive :status="$user->status" :title="'Inactive'"/>
-                                    {{\App\Models\Menu::STATUS_LIST[$user->status] ?? null}}
+                                    {{\App\Models\User::STATUS_LIST[$user->status] ?? null}}
                                 @endif
                             </td>
                         </tr>

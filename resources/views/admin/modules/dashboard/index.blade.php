@@ -15,8 +15,8 @@
                                </div>
                            </div>
                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                               <h6 class="text-muted font-semibold">Profile Views</h6>
-                               <h6 class="font-extrabold mb-0">112.000</h6>
+                               <h6 class="text-muted font-semibold">Visitors</h6>
+                               <h6 class="font-extrabold mb-0">{{number_format($dash_data['visitors'] ?? 0)}}</h6>
                            </div>
                        </div>
                    </div>
@@ -33,8 +33,8 @@
                                </div>
                            </div>
                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                               <h6 class="text-muted font-semibold">Followers</h6>
-                               <h6 class="font-extrabold mb-0">183.000</h6>
+                               <h6 class="text-muted font-semibold">Blogs</h6>
+                               <h6 class="font-extrabold mb-0">{{number_format($dash_data['blogs'] ?? 0)}}</h6>
                            </div>
                        </div>
                    </div>
@@ -51,8 +51,8 @@
                                </div>
                            </div>
                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                               <h6 class="text-muted font-semibold">Following</h6>
-                               <h6 class="font-extrabold mb-0">80.000</h6>
+                               <h6 class="text-muted font-semibold">Events</h6>
+                               <h6 class="font-extrabold mb-0">{{number_format($dash_data['events'] ?? 0)}}</h6>
                            </div>
                        </div>
                    </div>
@@ -69,8 +69,8 @@
                                </div>
                            </div>
                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                               <h6 class="text-muted font-semibold">Saved Post</h6>
-                               <h6 class="font-extrabold mb-0">112</h6>
+                               <h6 class="text-muted font-semibold">Users</h6>
+                               <h6 class="font-extrabold mb-0">{{number_format($dash_data['users'] ?? 0)}}</h6>
                            </div>
                        </div>
                    </div>
@@ -81,7 +81,7 @@
            <div class="col-12">
                <div class="card">
                    <div class="card-header">
-                       <h4>Profile Visit</h4>
+                       <h4>Site Visit</h4>
                    </div>
                    <div class="card-body">
                        <div id="chart-profile-visit"></div>
@@ -90,10 +90,10 @@
            </div>
        </div>
        <div class="row">
-           <div class="col-12 col-xl-4">
+           <div class="col-12 col-xl-12">
                <div class="card">
                    <div class="card-header">
-                       <h4>Profile Visit</h4>
+                       <h4>Volunteers Summary</h4>
                    </div>
                    <div class="card-body">
                        <div class="row">
@@ -104,7 +104,7 @@
                                        <use
                                            xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
                                    </svg>
-                                   <h5 class="mb-0 ms-3">Europe</h5>
+                                   <h5 class="mb-0 ms-3">Volentiars</h5>
                                </div>
                            </div>
                            <div class="col-5">
@@ -114,94 +114,11 @@
                                <div id="chart-europe"></div>
                            </div>
                        </div>
-                       <div class="row">
-                           <div class="col-7">
-                               <div class="d-flex align-items-center">
-                                   <svg class="bi text-success" width="32" height="32" fill="blue"
-                                       style="width:10px">
-                                       <use
-                                           xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                   </svg>
-                                   <h5 class="mb-0 ms-3">America</h5>
-                               </div>
-                           </div>
-                           <div class="col-5">
-                               <h5 class="mb-0 text-end">375</h5>
-                           </div>
-                           <div class="col-12">
-                               <div id="chart-america"></div>
-                           </div>
-                       </div>
-                       <div class="row">
-                           <div class="col-7">
-                               <div class="d-flex align-items-center">
-                                   <svg class="bi text-danger" width="32" height="32" fill="blue"
-                                       style="width:10px">
-                                       <use
-                                           xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                   </svg>
-                                   <h5 class="mb-0 ms-3">Indonesia</h5>
-                               </div>
-                           </div>
-                           <div class="col-5">
-                               <h5 class="mb-0 text-end">1025</h5>
-                           </div>
-                           <div class="col-12">
-                               <div id="chart-indonesia"></div>
-                           </div>
-                       </div>
+                       
                    </div>
                </div>
            </div>
-           <div class="col-12 col-xl-8">
-               <div class="card">
-                   <div class="card-header">
-                       <h4>Latest Comments</h4>
-                   </div>
-                   <div class="card-body">
-                       <div class="table-responsive">
-                           <table class="table table-hover table-lg">
-                               <thead>
-                                   <tr>
-                                       <th>Name</th>
-                                       <th>Comment</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   <tr>
-                                       <td class="col-3">
-                                           <div class="d-flex align-items-center">
-                                               <div class="avatar avatar-md">
-                                                   <img src="./assets/compiled/jpg/5.jpg">
-                                               </div>
-                                               <p class="font-bold ms-3 mb-0">Si Cantik</p>
-                                           </div>
-                                       </td>
-                                       <td class="col-auto">
-                                           <p class=" mb-0">Congratulations on your graduation!</p>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td class="col-3">
-                                           <div class="d-flex align-items-center">
-                                               <div class="avatar avatar-md">
-                                                   <img src="./assets/compiled/jpg/2.jpg">
-                                               </div>
-                                               <p class="font-bold ms-3 mb-0">Si Ganteng</p>
-                                           </div>
-                                       </td>
-                                       <td class="col-auto">
-                                           <p class=" mb-0">Wow amazing design! Can you make another
-                                               tutorial for
-                                               this design?</p>
-                                       </td>
-                                   </tr>
-                               </tbody>
-                           </table>
-                       </div>
-                   </div>
-               </div>
-           </div>
+           
        </div>
    </div>
    <div class="col-12 col-lg-3">
@@ -209,11 +126,11 @@
            <div class="card-body py-4 px-4">
                <div class="d-flex align-items-center">
                    <div class="avatar avatar-xl">
-                       <img src="./assets/compiled/jpg/1.jpg" alt="Face 1">
+                       <img src="{{get_image($user->profile_photo?->photo)}}" alt="Face 1">
                    </div>
                    <div class="ms-3 name">
-                       <h5 class="font-bold">John Duck</h5>
-                       <h6 class="text-muted mb-0">@johnducky</h6>
+                       <h5 class="font-bold">{{$user->name}}</h5>
+                       <h6 class="text-muted mb-0">{{$user->email}}</h6>
                    </div>
                </div>
            </div>
@@ -258,7 +175,7 @@
        </div>
        <div class="card">
            <div class="card-header">
-               <h4>Visitors Profile</h4>
+               <h4>volunteers Gender</h4>
            </div>
            <div class="card-body">
                <div id="chart-visitors-profile"></div>
@@ -267,3 +184,127 @@
    </div>
 </section>
 @endsection
+
+@push('scripts')
+    <!-- Need: Apexcharts -->
+    <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
+    {{-- <script src="{{asset('assets/static/js/pages/dashboard.js')}}"></script> --}}
+    <script>
+        var optionsProfileVisit = {
+        annotations: {
+            position: "back",
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        chart: {
+            type: "bar",
+            height: 300,
+        },
+        fill: {
+            opacity: 1,
+        },
+        plotOptions: {},
+        series: [
+            {
+            name: "Visitors",
+            data: @json($visitor_data['data']),
+            },
+        ],
+        colors: "#435ebe",
+        xaxis: {
+            categories: @json($visitor_data['month'])
+        },
+        }
+        let optionsVisitorsProfile = {
+            series: @json($dash_data["gender"]),
+            labels: ["Male", "Female", "Other"],
+            colors: ["#435ebe", "#55c6e8", '#403E41'],
+            chart: {
+                type: "donut",
+                width: "100%",
+                height: "350px",
+            },
+            legend: {
+                position: "bottom",
+            },
+            plotOptions: {
+                pie: {
+                donut: {
+                    size: "30%",
+                },
+                },
+            },
+        }
+
+        var optionsEurope = {
+        series: [
+            {
+            name: "Volunteers",
+            data: @json($users_data['data']),
+            },
+        ],
+        chart: {
+            height: 350,
+            type: "area",
+            toolbar: {
+            show: false,
+            },
+        },
+        colors: ["#5350e9"],
+        stroke: {
+            width: 2,
+        },
+        grid: {
+            show: false,
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        xaxis: {
+            type: "date",
+            categories: @json($users_data['date']),
+            axisBorder: {
+            show: false,
+            },
+            axisTicks: {
+            show: false,
+            },
+            labels: {
+            show: false,
+            },
+        },
+        show: false,
+        yaxis: {
+            labels: {
+            show: false,
+            },
+        },
+        tooltip: {
+            x: {
+            format: "dd/MM/yy HH:mm",
+            },
+        },
+        }
+
+
+        var chartProfileVisit = new ApexCharts(
+        document.querySelector("#chart-profile-visit"),
+        optionsProfileVisit
+        )
+        var chartVisitorsProfile = new ApexCharts(
+        document.getElementById("chart-visitors-profile"),
+        optionsVisitorsProfile
+        )
+        var chartEurope = new ApexCharts(
+        document.querySelector("#chart-europe"),
+        optionsEurope
+        )
+
+
+        chartEurope.render()
+        chartProfileVisit.render()
+        chartVisitorsProfile.render()
+
+    </script>
+@endpush

@@ -29,6 +29,7 @@ class UserController extends Controller
             'button_title' => __('Create User'),
             'button_url'   => route('user.create'),
         ];
+        $genders = User::GENDER_LIST;
         $status  = User::STATUS_LIST;
         $users   = (new User())->get_admins($request);
         $roles   = (new RoleExtended())->get_roles_assoc();
@@ -45,7 +46,7 @@ class UserController extends Controller
         ];
         $search = $request->all();
 
-        return view('admin.modules.user.index', compact('cms_content', 'users', 'search', 'columns', 'roles', 'status'));
+        return view('admin.modules.user.index', compact('cms_content', 'users', 'search', 'columns', 'roles', 'status', 'genders'));
     }
 
 
@@ -62,10 +63,11 @@ class UserController extends Controller
             'button_title' => __('User List'),
             'button_url'   => route('user.index'),
         ];
-        $roles      = (new RoleExtended())->get_roles_assoc();
-        $status     = User::STATUS_LIST;
+        $genders = User::GENDER_LIST;
+        $roles   = (new RoleExtended())->get_roles_assoc();
+        $status  = User::STATUS_LIST;
 
-        return view('admin.modules.user.create', compact('cms_content', 'roles', 'status'));
+        return view('admin.modules.user.create', compact('cms_content', 'roles', 'status', 'genders'));
     }
 
     /**
@@ -125,10 +127,11 @@ class UserController extends Controller
             'button_title' => __('User List'),
             'button_url'   => route('user.index'),
         ];
-        $roles           = (new RoleExtended())->get_roles_assoc();
-        $status          = User::STATUS_LIST;
+        $roles   = (new RoleExtended())->get_roles_assoc();
+        $status  = User::STATUS_LIST;
+        $genders = User::GENDER_LIST;
 
-        return view('admin.modules.user.edit', compact('cms_content', 'user', 'roles', 'status'));
+        return view('admin.modules.user.edit', compact('cms_content', 'user', 'roles', 'status', 'genders'));
     }
 
     final public function show(User $user, Request $request): View

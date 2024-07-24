@@ -108,13 +108,21 @@
     </div>
     <div class="col-md-6 mb-4">
         <div class="custom-form-group">
-            {{html()->label('Status', 'status')}}
+            {{html()->label('Gender', 'gender')}}
             <x-required/>
-            {{html()->select('status', $status)->class('form-select '. ($errors->has('status') ? 'is-invalid' : ''))->placeholder(__('Select Menu Status'))}}
-            <x-validation-error :errors="$errors->first('status')"/>
+            {{html()->select('gender', $genders)->class('form-select '. ($errors->has('gender') ? 'is-invalid' : ''))->placeholder(__('Select Gender'))}}
+            <x-validation-error :errors="$errors->first('gender')"/>
         </div>
     </div>
     <div class="col-md-6 mb-4">
+        <div class="custom-form-group">
+            {{html()->label('Status', 'status')}}
+            <x-required/>
+            {{html()->select('status', $status)->class('form-select '. ($errors->has('status') ? 'is-invalid' : ''))->placeholder(__('Select Status'))}}
+            <x-validation-error :errors="$errors->first('status')"/>
+        </div>
+    </div>
+    <div class="col-md-12 mb-4">
         <div class="custom-form-group">
             {{html()->label('Role', 'role_id')}}
             <x-required/>
@@ -128,7 +136,7 @@
                     }
                 @endphp
                 @foreach($roles as $key=>$value)
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-check">
                             <input name="role_id[]" class="form-check-input" type="checkbox" value="{{$key}}" id="role_check_box_{{$key}}" {{in_array($key, $roleIds) ? 'checked' : ''}}>
                             <label class="form-check-label" for="role_check_box_{{$key}}">

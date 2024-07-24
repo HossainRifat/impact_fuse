@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SiteVisit;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class DashboardController extends Controller
 {
@@ -22,7 +27,19 @@ class DashboardController extends Controller
             'button_title' => __('Report'),
             'button_url'   => route('dashboard'),
         ];
-        return view('admin.modules.dashboard.index', compact('cms_content'));
+        try {
+            DB::beginTransaction();
+            $dash_data    = (new User())->get_dash_data();
+            $visitor_data = (new SiteVisit())->get_dashboard_data();
+            $users_data   = (new User())->get_dash_user_data();
+            $user         = Auth::user();
+            DB::commit();
+
+            return view('admin.modules.dashboard.index', compact('cms_content', 'dash_data', 'user', 'visitor_data', 'users_data'));
+        } catch (Throwable $th) {
+            dd($th->getMessage(), $th->getFile(), $th->getLine());
+            return view('site.error');
+        }
     }
 
     final public function switchTheme(Request $request): RedirectResponse

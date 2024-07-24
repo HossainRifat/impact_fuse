@@ -17,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Manager\Constants\GlobalConstant;
 use App\Manager\FileUploadManager;
 use App\Models\Traits\CreatedUpdatedBy;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -68,6 +69,16 @@ class User extends Authenticatable
         self::STATUS_BLOCKED   => 'Blocked',
         self::STATUS_PENDING   => 'Pending',
         self::STATUS_REJECTED  => 'Rejected',
+    ];
+
+    public const GENDER_MALE   = 1;
+    public const GENDER_FEMALE = 2;
+    public const GENDER_OTHER  = 3;
+
+    public const GENDER_LIST = [
+        self::GENDER_MALE   => 'Male',
+        self::GENDER_FEMALE => 'Female',
+        self::GENDER_OTHER  => "Other"
     ];
 
     public const PHOTO_UPLOAD_PATH = 'public/photos/uploads/user-photos/';
@@ -125,6 +136,9 @@ class User extends Authenticatable
             $query->whereHas('roles', function ($query) use ($request) {
                 $query->where('id', $request->input('role'));
             });
+        }
+        if ($request->input('gender')) {
+            $query->where('gender', $request->input('gender'));
         }
         if ($request->input('department')) {
             $query->where('department', 'like', '%' . $request->input('department') . '%');
@@ -186,25 +200,6 @@ class User extends Authenticatable
     }
 
     /**
-     * @return MorphOne
-     */
-    final public function profile_photo(): MorphOne
-    {
-        return $this->morphOne(MediaGallery::class, 'imageable')
-            ->where('type', self::IMAGE_TYPE_PROFILE)
-            ->orderByDesc('id');
-    }
-
-    /**
-     * @return MorphOne
-     */
-    final public function cv(): MorphOne
-    {
-        return $this->morphOne(MediaGallery::class, 'imageable')
-            ->where('type', MediaGallery::TYPE_CV);
-    }
-
-    /**
      * @throws Exception
      */
     private function upload_profile_photo(Request $request, User|Model $user): void
@@ -261,6 +256,7 @@ class User extends Authenticatable
             'name'              => $request->input('name'),
             'email'             => $request->input('email'),
             'phone'             => $request->input('phone', null),
+            'gender'            => $request->input('gender', null),
             'address'           => $request->input('address', null),
             'note'              => $request->input('note', null),
             'status'            => $request->input('status', self::STATUS_ACTIVE),
@@ -321,7 +317,49 @@ class User extends Authenticatable
         return $user->delete();
     }
 
+    final public function get_dash_data(): array
+    {
+        if (Cache::has('dash_basic_data')) {
+            return Cache::get('dash_basic_data');
+        }
+        $data = [];
+        $users            = User::query()->where('status', self::STATUS_ACTIVE);
+        $data['blogs']    = Blog::query()->where('status', Blog::STATUS_ACTIVE)->count();
+        $data['events']   = Event::query()->where('status', Event::STATUS_ACTIVE)->count();
+        $data['users']    = $users->count();
+        $data['visitors'] = SiteVisit::all()->sum('count');
+        $data['gender']   = [
+            User::query()->where('status', self::STATUS_ACTIVE)->where('gender', self::GENDER_MALE)->count() ?? 0,
+            User::query()->where('status', self::STATUS_ACTIVE)->where('gender', self::GENDER_FEMALE)->count() ?? 0,
+            User::query()->where('status', self::STATUS_ACTIVE)->where('gender', self::GENDER_OTHER)->count() ?? 0,
+        ];
 
+        //cache for 24 hr
+        Cache::put('dash_basic_data', $data, 60 * 24);
+        return $data;
+    }
+
+    final public function get_dash_user_data()
+    {
+        if (Cache::has('dash_users_data')) {
+            return Cache::get('dash_users_data');
+        }
+        $dash_data = [];
+        for ($i = 30; $i >= 0; $i--) {
+            $month = Carbon::now()->subDays($i);
+            $data = self::query()
+                ->where('status', self::STATUS_ACTIVE)
+                ->whereDate('created_at', '<=', $month->format('Y-m-d'))
+                ->count();
+
+            $dash_data['date'][] = $month->format('d M y');
+            $dash_data['data'][]  = $data;
+        }
+
+        //cache for 24 hr
+        Cache::put('dash_users_data', $dash_data, 60 * 24);
+        return $dash_data;
+    }
 
     /**
      * @return MorphOne
@@ -334,5 +372,24 @@ class User extends Authenticatable
     final public function activity_logs(): MorphMany
     {
         return $this->morphMany(ActivityLog::class, 'logable')->orderByDesc('id');
+    }
+
+    /**
+     * @return MorphOne
+     */
+    final public function profile_photo(): MorphOne
+    {
+        return $this->morphOne(MediaGallery::class, 'imageable')
+            ->where('type', self::IMAGE_TYPE_PROFILE)
+            ->orderByDesc('id');
+    }
+
+    /**
+     * @return MorphOne
+     */
+    final public function cv(): MorphOne
+    {
+        return $this->morphOne(MediaGallery::class, 'imageable')
+            ->where('type', MediaGallery::TYPE_CV);
     }
 }
